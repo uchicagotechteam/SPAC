@@ -37,11 +37,13 @@
  *
  * ========================================================= */
  .slider {
-  display: inline-block;
+  display: block;
   vertical-align: middle;
   position: relative;
 }
 .slider.slider-horizontal {
+  padding: 100px;
+  display: block;
   width: 210px;
   height: 20px;
 }
@@ -87,7 +89,7 @@
   margin-top: 20px;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-  padding-top: 4px;
+  padding-top: 20px;
   display: inline-block;
   text-align: center;
 }

@@ -1,0 +1,17 @@
+
+#violentCrimesContainer {
+  padding-top: 20px;
+  padding-left: 20px;
+  display: inline-block;
+  width: 45%; 
+}
+
+#NonviolentCrimesContainer{
+  padding-top: 20px;
+  display: inline-block;
+  width:45%;
+}
+
+.slider-item {
+  padding-bottom: 20px;
+}

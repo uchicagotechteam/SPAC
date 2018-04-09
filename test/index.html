@@ -11,17 +11,41 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.css" integrity="sha256-qkeO+BtgpANRnm6UfrclSLyB+QdfOK4qtspUK6qpnGk="
     crossorigin="anonymous" />
+  <link rel="stylesheet" href="custom.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.js" integrity="sha256-CMbY8O/nsUqZQgyh7wMVktFXm31lLdWlCkl86V2eSCg="
     crossorigin="anonymous"></script>
   <script src="main.js"></script>
 </head>
 
 <body>
-    <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
-    <input id="ex2" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
-    <input id="ex3" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
-    <input id="ex4" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
-    <button type="button" id="push" /> Click me! </button>
+
+  <div id="violentCrimesContainer">
+    <div class="slider-item">
+    <h3> Violent Crimes </h1>
+        <h5>% Reduction in length of stay:</h1>
+          <input id="VLengthOfStay" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="5"
+        data-slider-value="14" class='sliders' />
+    </div>
+    <div class="slider-item">
+        <h5>% Reduction in Incoming Prisoners:</h1>
+          <input id="VIncomingPrisoners" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+        data-slider-value="14" class='sliders' />
+    </div>
+  </div>
+
+  <div id="NonviolentCrimesContainer">
+      <h3> Non-Violent Crimes </h1>
+        <h5>% Reduction in length of stay:</h1>
+      <div class="slider-item">
+        <input id="NVLengthOfStay" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+          data-slider-value="14" class='sliders' />
+      </div>
+      <h5>% Reduction in Incoming Prisoners:</h1>
+        <div class="slider-item">
+          <input id="NVIncomingPrisoners" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+            data-slider-value="14" class='sliders' />
+        </div>
+  </div>
 </body>
 
 </html>
