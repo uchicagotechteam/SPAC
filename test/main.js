@@ -3,6 +3,12 @@ var valVIncomingPrisoners = 0;
 var valNVLengthOfStay = 0;
 var valNVIncomingPrisoners = 0;
 
+var capacity_ = 100000;
+var initialPop_ = 43075;
+var losV_ = 1.9;
+var losNV_ = 1.9;
+var add_ = 26692;
+
 var VLengthOfStay;
 var VIncomingPrisoners;
 var NVLengthOfStay;
@@ -37,6 +43,30 @@ function createSlider(name) {
 
 }
 
+// add 26692 lost 1.9 current prision Pop 43,075
+
+function populationStepYears(years, add, avgLos, start) {
+		if (!start) {
+				start = initialPop_;
+		}
+		if (!avgLos) {
+				avgLos = avgLos_;
+		}
+		if (!add) {
+				add = add_;
+		}
+		var pop = start;
+		for (var i = 0; i < years; i++) {
+				pop = populationStep(pop, add, avgLos);
+		}
+		return pop;
+}
+
+function populationStep(prevPop, add, avgLos) {
+		var expon = Math.exp(-1.0 / avgLos);
+		return add * avgLos * (1.0 - expon) + prevPop * expon;
+}
+
 $(document)
 		.ready(function () {
 				createSlider('VLengthOfStay');
@@ -67,4 +97,11 @@ $(document)
 				v3 = $('#v3');
 				v4 = $('#v4');
 				update();
-		});
+
+				var cap = capacity_;
+				var violentLos = losV_ * valVLengthOfStay / 100;
+				var nonViolentLos = losNV_ * valNVLengthOfStay / 100;
+				var violentInc = ;
+				var nonViolentInc = ;
+
+			});
