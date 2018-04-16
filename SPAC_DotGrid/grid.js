@@ -5,7 +5,7 @@ var height = 500;
 
 var grid = d3.select("body")
    .append("svg")
-   .attr("width", width)    
+   .attr("width", width)
    .attr("height", height);
 
 
@@ -22,5 +22,9 @@ for (var i=25; i <= width-25; i=i+25) {
 };
 
 
+function colorNDotsAtM (m,n, color) {
+ grid.selectAll(".circle").filter(function(d, i) {return (i >= m) && (i < m+n);}).style("fill", color);
+}
 
- grid.selectAll(".circle").style("fill", "red");
+colorNDotsAtM(0,40,"red");
+colorNDotsAtM(40,100,"blue");
