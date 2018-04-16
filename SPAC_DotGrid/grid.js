@@ -9,16 +9,14 @@ var grid = d3.select("body")
    .attr("width", width)
    .attr("height", height);
 
-
-
 for (var j=25; j <= height-25; j+=25) {
 	for (var i=25; i <= width-25; i+=25) {
     	grid.append("circle")
     	    .attr("class", "circle")
         	.attr("cx", i)
         	.attr("cy", j)
-        	.attr("r", 5)
-        	.style("fill", "black");
+        	.attr("r", 8)
+        	.style("fill", "rgba(0,0,0,0.2)");
 	};
 };
 

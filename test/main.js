@@ -21,6 +21,12 @@ var v2;
 var v3;
 var v4;
 
+var width = 500;
+var height = 500;
+var total_dots = 500*500/(25*25);
+
+var grid;
+
 function update() {
 		valVLengthOfStay = VLengthOfStay.slider('getValue');
 		valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
@@ -45,6 +51,19 @@ function update() {
 		var nvAfter10 = populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
 		var vAfter10 = populationStepYears(10, violentInc, violentLos, vPpl);
 		// console.log("nvAfter10", nvAfter10,"\n vAfter10", vAfter10);
+		colorPercentageNatM(0,1,"rgba(0,0,0,0.2)")
+		colorPercentageNatM(0,(nvPpl-nvAfter10)/nvPpl,"blue");
+		colorPercentageNatM((vPpl-vAfter10)/vPpl,(nvPpl-nvAfter10)/nvPpl,"red");
+}
+
+function colorNDotsAtM (m,n, color) {
+ grid.selectAll(".circle").filter(function(d, i) {return (i >= m) && (i < m+n);}).style("fill", color);
+}
+
+function colorPercentageNatM (percFilled, percToFill, color) {
+  colorNDotsAtM(Math.floor(percFilled*total_dots),Math.floor(percToFill*total_dots),color);
+  var percNowFilled = percFilled+percToFill;
+  return percNowFilled;
 }
 
 function createSlider(name) {
@@ -73,6 +92,23 @@ function populationStep(prevPop, add, avgLos) {
 
 $(document)
 		.ready(function () {
+
+			grid = d3.select("body")
+			   .append("svg")
+			   .attr("width", width)
+			   .attr("height", height);
+
+			for (var j=25; j <= height-25; j+=25) {
+				for (var i=25; i <= width-25; i+=25) {
+						grid.append("circle")
+								.attr("class", "circle")
+								.attr("cx", i)
+								.attr("cy", j)
+								.attr("r", 8)
+								.style("fill", "rgba(0,0,0,0.2)");
+				};
+			};
+
 				createSlider('VLengthOfStay');
 				createSlider('VIncomingPrisoners');
 				createSlider('NVLengthOfStay');
@@ -102,5 +138,5 @@ $(document)
 				v4 = $('#v4');
 				update();
 
-				
+
 			});
