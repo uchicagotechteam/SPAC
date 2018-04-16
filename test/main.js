@@ -4,10 +4,12 @@ var valNVLengthOfStay = 0;
 var valNVIncomingPrisoners = 0;
 
 var capacity_ = 100000;
-var initialPop_ = 43075;
+var initialPopV_ = 43075 / 2.0;
+var initialPopNV_ = 43075 / 2.0;
 var losV_ = 1.9;
 var losNV_ = 1.9;
-var add_ = 26692;
+var addV_ = 26692 / 2;
+var addNV_ = 26692 / 2;
 
 var VLengthOfStay;
 var VIncomingPrisoners;
@@ -32,6 +34,17 @@ function update() {
 		v2.html(valVIncomingPrisoners);
 		v3.html(valNVLengthOfStay);
 		v4.html(valNVIncomingPrisoners);
+
+		var vPpl = initialPopV_;
+		var nvPpl =  initialPopNV_;
+		var violentLos = losV_ * valVLengthOfStay / 100;
+		var nonViolentLos = losNV_ * valNVLengthOfStay / 100;
+		var violentInc = addV_ * valVIncomingPrisoners / 100;
+		var nonViolentInc = addNV_ * valNVIncomingPrisoners / 100;
+
+		var nvAfter10 = populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
+		var vAfter10 = populationStepYears(10, violentInc, violentLos, vPpl);
+		// console.log("nvAfter10", nvAfter10,"\n vAfter10", vAfter10);
 }
 
 function createSlider(name) {
@@ -46,15 +59,6 @@ function createSlider(name) {
 // add 26692 lost 1.9 current prision Pop 43,075
 
 function populationStepYears(years, add, avgLos, start) {
-		if (!start) {
-				start = initialPop_;
-		}
-		if (!avgLos) {
-				avgLos = avgLos_;
-		}
-		if (!add) {
-				add = add_;
-		}
 		var pop = start;
 		for (var i = 0; i < years; i++) {
 				pop = populationStep(pop, add, avgLos);
@@ -98,10 +102,5 @@ $(document)
 				v4 = $('#v4');
 				update();
 
-				var cap = capacity_;
-				var violentLos = losV_ * valVLengthOfStay / 100;
-				var nonViolentLos = losNV_ * valNVLengthOfStay / 100;
-				var violentInc = ;
-				var nonViolentInc = ;
-
+				
 			});
