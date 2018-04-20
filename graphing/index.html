@@ -1,0 +1,152 @@
+<html>
+	<head>
+		<title>Simple Line Graph using SVG and d3.js</title>
+		<script src="http://mbostock.github.com/d3/d3.v2.js"></script>
+		<style>
+			/* tell the SVG path to be a thin blue line without any area fill */
+			path {
+				/* stroke: red; */
+				stroke-width: 2;
+				/* fill: none; */
+			}
+
+			.axis {
+			  shape-rendering: crispEdges;
+			}
+			.x.axis line {
+			  stroke: lightgrey;
+			}
+			.x.axis .minor {
+			  stroke-opacity: .5;
+			}
+			.x.axis path {
+			  display: none;
+			}
+			.y.axis line, .y.axis path {
+			  fill: none;
+			  stroke: #000;
+			}
+		</style>
+	</head>
+	<body>
+
+
+	<div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+
+
+	<script>
+		/* implementation heavily influenced by http://bl.ocks.org/1166403 */
+
+		// define dimensions of graph
+		var m = [80, 80, 80, 80]; // margins
+		var w = 1000 - m[1] - m[3]; // width
+		var h = 400 - m[0] - m[2]; // height
+
+		// create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
+		var data = [3, 6, 4, 7, 5, 2, 5, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 2, 5, 9, 8, 7];
+		var data2 = [1, 4, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3, 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
+		// X scale will fit all values from data[] within pixels 0-w
+		var x = d3.scale.linear().domain([0, data.length]).range([0, w]);
+		// Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
+		var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
+			// automatically determining max range can work something like this
+			// var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
+		// create a line function that can convert data[] into x and y points
+		var line = d3.svg.line()
+			// assign the X function to plot our line as we wish
+			.x(function(d,i) {
+				// verbose logging to show what's actually being done
+				console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+				// return the X coordinate where we want to plot this datapoint
+				return x(i);
+			})
+			.y(function(d) {
+				// verbose logging to show what's actually being done
+				console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+				// return the Y coordinate where we want to plot this datapoint
+				return y(d);
+			})
+			// Add an SVG element with the desired dimensions and margin.
+			var graph = d3.select("#graph").append("svg:svg")
+			      .attr("width", w + m[1] + m[3])
+			      .attr("height", h + m[0] + m[2])
+			    .append("svg:g")
+			      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+			// create yAxis
+			var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+			// Add the x-axis.
+			graph.append("svg:g")
+			      .attr("class", "x axis")
+			      .attr("transform", "translate(0," + h + ")")
+			      .call(xAxis);
+			// create left yAxis
+			var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
+			// Add the y-axis to the left
+			graph.append("svg:g")
+			      .attr("class", "y axis")
+			      .attr("transform", "translate(-25,0)")
+			      .call(yAxisLeft);
+
+
+			  var indices = d3.range( data.length )
+			  var zeroes = []
+			  var ones = []
+			  for (var i = 0; i < data.length; i++) {
+				  zeroes.push(0)
+				  ones.push(10)
+			  }
+
+  			// Add the line by appending an svg:path element with the data line we created above
+			// do this AFTER the axes above so that the line is above the tick-lines
+  			graph.append("svg:path").attr("d", line(ones)).attr("fill", "none").attr("stroke", "black");
+  			graph.append("svg:path").attr("d", line(data)).attr("fill", "none").attr("stroke", "green");
+  			graph.append("svg:path").attr("d", line(data2)).attr("fill", "none").attr("stroke", "blue");
+
+            // area
+            var xscale = d3.scale.linear()
+                 .range([0, w / data.length])
+                 .domain(indices);
+
+            var yscale = d3.scale.linear()
+                .range([0, h])
+                .domain([0,10]);
+
+            console.log(xscale(1))
+            console.log(indices)
+            console.log(zeroes)
+            console.log(xscale)
+
+			var area1 = d3.svg.area()
+					  // .interpolate("cardinal")
+					  .x0( function(d) { return xscale(d) } )
+					  .x1( function(d) { return xscale(d) } )
+					  .y0( function(d) { return h-yscale(ones[d]) } )
+					  .y1( function(d) { return h-yscale(data[d]) } );
+
+			graph.append('path')
+				.datum(indices)
+				.attr('class', 'area')
+				.attr('fill', 'green')
+				.attr('opacity', 0.2)
+				.attr('d', area1);
+
+            var area2 = d3.svg.area()
+                      // .interpolate("cardinal")
+                      .x0( function(d) { return xscale(d) } )
+                      .x1( function(d) { return xscale(d) } )
+                      .y0( function(d) { return h-yscale(data[d]) } )
+                      .y1( function(d) { return h-yscale(data2[d]) } );
+
+            graph.append('path')
+                .datum(indices)
+                .attr('class', 'area')
+                .attr('fill', 'blue')
+				.attr('opacity', 0.2)
+                .attr('d', area2);
+
+	</script>
+
+
+
+	</body>
+</html>
