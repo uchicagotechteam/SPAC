@@ -99,7 +99,7 @@
 		}
 
 
-		function plotLines(data) {
+		function plotLines(data, xscale, yscale) {
 			var colors = ["black", "green", "blue"];
 			var num_lines = data.length;
 			// plotting the lines
@@ -107,16 +107,24 @@
 				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
 			}
 			for (var i = 0; i < num_lines - 1; i++) {
-				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
+				var area = d3.svg.area()
+					// .interpolate("cardinal")
+					.x0( function(d) { return xscale(d) } )
+					.x1( function(d) { return xscale(d) } )
+					.y0( function(d) { return h-yscale(data[i][d]) } )
+					.y1( function(d) { return h-yscale(data[i+1][d]) } );
+
+				graph.append('path')
+					.datum(indices)
+					.attr('class', 'area')
+					.attr('fill', colors[i+1])
+					.attr('opacity', 0.2)
+					.attr('d', area);
 			}
 
 		}
 
-		// Add the line by appending an svg:path element with the data line we created above
-		// do this AFTER the axes above so that the line is above the tick-lines
-		graph.append("svg:path").attr("d", line(ones)).attr("fill", "none").attr("stroke", "black");
-		graph.append("svg:path").attr("d", line(data1)).attr("fill", "none").attr("stroke", "green");
-		graph.append("svg:path").attr("d", line(data2)).attr("fill", "none").attr("stroke", "blue");
+
 
 		// area
 		var xscale = d3.scale.linear()
@@ -127,38 +135,47 @@
 		  .range([0, h])
 		  .domain([0,10]);
 
-		console.log(xscale(1))
-		console.log(indices)
-		console.log(zeroes)
-		console.log(xscale)
+		plotLines([ones, data1, data2], xscale, yscale);
 
-		var area1 = d3.svg.area()
-			// .interpolate("cardinal")
-			.x0( function(d) { return xscale(d) } )
-			.x1( function(d) { return xscale(d) } )
-			.y0( function(d) { return h-yscale(ones[d]) } )
-			.y1( function(d) { return h-yscale(data1[d]) } );
+		// console.log(xscale(1))
+		// console.log(indices)
+		// console.log(zeroes)
+		// console.log(xscale)
 
-		graph.append('path')
-			.datum(indices)
-			.attr('class', 'area')
-			.attr('fill', 'green')
-			.attr('opacity', 0.2)
-			.attr('d', area1);
+		// // Add the line by appending an svg:path element with the data line we created above
+		// // do this AFTER the axes above so that the line is above the tick-lines
+		// graph.append("svg:path").attr("d", line(ones)).attr("fill", "none").attr("stroke", "black");
+		// graph.append("svg:path").attr("d", line(data1)).attr("fill", "none").attr("stroke", "green");
+		// graph.append("svg:path").attr("d", line(data2)).attr("fill", "none").attr("stroke", "blue");
 
-		var area2 = d3.svg.area()
-		        // .interpolate("cardinal")
-		        .x0( function(d) { return xscale(d) } )
-		        .x1( function(d) { return xscale(d) } )
-		        .y0( function(d) { return h-yscale(data1[d]) } )
-		        .y1( function(d) { return h-yscale(data2[d]) } );
 
-		graph.append('path')
-		  .datum(indices)
-		  .attr('class', 'area')
-		  .attr('fill', 'blue')
-		  .attr('opacity', 0.2)
-		  .attr('d', area2);
+		// var area1 = d3.svg.area()
+		// 	// .interpolate("cardinal")
+		// 	.x0( function(d) { return xscale(d) } )
+		// 	.x1( function(d) { return xscale(d) } )
+		// 	.y0( function(d) { return h-yscale(ones[d]) } )
+		// 	.y1( function(d) { return h-yscale(data1[d]) } );
+		//
+		// graph.append('path')
+		// 	.datum(indices)
+		// 	.attr('class', 'area')
+		// 	.attr('fill', 'green')
+		// 	.attr('opacity', 0.2)
+		// 	.attr('d', area1);
+		//
+		// var area2 = d3.svg.area()
+		//         // .interpolate("cardinal")
+		//         .x0( function(d) { return xscale(d) } )
+		//         .x1( function(d) { return xscale(d) } )
+		//         .y0( function(d) { return h-yscale(data1[d]) } )
+		//         .y1( function(d) { return h-yscale(data2[d]) } );
+		//
+		// graph.append('path')
+		//   .datum(indices)
+		//   .attr('class', 'area')
+		//   .attr('fill', 'blue')
+		//   .attr('opacity', 0.2)
+		//   .attr('d', area2);
 
 	</script>
 
