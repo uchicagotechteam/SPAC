@@ -1,9 +1,9 @@
 <html>
 	<head>
-		<title>Simple Line Graph using SVG and d3.js</title>
+		<title>Test Population Graph</title>
 		<script src="http://mbostock.github.com/d3/d3.v2.js"></script>
 		<style>
-			/* tell the SVG path to be a thin blue line without any area fill */
+			/* tell the SVG path to be a thin red line without any area fill */
 			path {
 				/* stroke: red; */
 				stroke-width: 2;
@@ -43,14 +43,16 @@
 		var h = 400 - m[0] - m[2]; // height
 
 		// create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
-		var data = [3, 6, 4, 7, 5, 2, 5, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 2, 5, 9, 8, 7];
-		var data2 = [1, 4, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3, 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
+		var data1 = [10, 9, 6, 7, 5, 2, 5, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 2, 5, 9, 8, 7];
+		var data2 = [10, 5, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3, 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
+
 		// X scale will fit all values from data[] within pixels 0-w
-		var x = d3.scale.linear().domain([0, data.length]).range([0, w]);
+		var x = d3.scale.linear().domain([0, data1.length]).range([0, w]);
 		// Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
 		var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
 			// automatically determining max range can work something like this
 			// var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
+
 		// create a line function that can convert data[] into x and y points
 		var line = d3.svg.line()
 			// assign the X function to plot our line as we wish
@@ -66,87 +68,99 @@
 				// return the Y coordinate where we want to plot this datapoint
 				return y(d);
 			})
-			// Add an SVG element with the desired dimensions and margin.
-			var graph = d3.select("#graph").append("svg:svg")
-			      .attr("width", w + m[1] + m[3])
-			      .attr("height", h + m[0] + m[2])
-			    .append("svg:g")
-			      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-			// create yAxis
-			var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
-			// Add the x-axis.
-			graph.append("svg:g")
-			      .attr("class", "x axis")
-			      .attr("transform", "translate(0," + h + ")")
-			      .call(xAxis);
-			// create left yAxis
-			var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
-			// Add the y-axis to the left
-			graph.append("svg:g")
-			      .attr("class", "y axis")
-			      .attr("transform", "translate(-25,0)")
-			      .call(yAxisLeft);
+		// Add an SVG element with the desired dimensions and margin.
+		var graph = d3.select("#graph").append("svg:svg")
+		      .attr("width", w + m[1] + m[3])
+		      .attr("height", h + m[0] + m[2])
+		    	.append("svg:g")
+		      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+		// create yAxis
+		var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+		// Add the x-axis.
+		graph.append("svg:g")
+		      .attr("class", "x axis")
+		      .attr("transform", "translate(0," + h + ")")
+		      .call(xAxis);
+		// create left yAxis
+		var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
+		// Add the y-axis to the left
+		graph.append("svg:g")
+		      .attr("class", "y axis")
+		      .attr("transform", "translate(-25,0)")
+		      .call(yAxisLeft);
 
 
-			  var indices = d3.range( data.length )
-			  var zeroes = []
-			  var ones = []
-			  for (var i = 0; i < data.length; i++) {
-				  zeroes.push(0)
-				  ones.push(10)
-			  }
+		var indices = d3.range( data1.length )
+		var zeroes = []
+		var ones = []
+		for (var i = 0; i < data1.length; i++) {
+		  zeroes.push(0)
+		  ones.push(10)
+		}
 
-  			// Add the line by appending an svg:path element with the data line we created above
-			// do this AFTER the axes above so that the line is above the tick-lines
-  			graph.append("svg:path").attr("d", line(ones)).attr("fill", "none").attr("stroke", "black");
-  			graph.append("svg:path").attr("d", line(data)).attr("fill", "none").attr("stroke", "green");
-  			graph.append("svg:path").attr("d", line(data2)).attr("fill", "none").attr("stroke", "blue");
 
-            // area
-            var xscale = d3.scale.linear()
-                 .range([0, w / data.length])
-                 .domain(indices);
+		function plotLines(data) {
+			var colors = ["black", "green", "blue"];
+			var num_lines = data.length;
+			// plotting the lines
+			for (var i = 0; i < num_lines; i++) {
+				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
+			}
+			for (var i = 0; i < num_lines - 1; i++) {
+				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
+			}
 
-            var yscale = d3.scale.linear()
-                .range([0, h])
-                .domain([0,10]);
+		}
 
-            console.log(xscale(1))
-            console.log(indices)
-            console.log(zeroes)
-            console.log(xscale)
+		// Add the line by appending an svg:path element with the data line we created above
+		// do this AFTER the axes above so that the line is above the tick-lines
+		graph.append("svg:path").attr("d", line(ones)).attr("fill", "none").attr("stroke", "black");
+		graph.append("svg:path").attr("d", line(data1)).attr("fill", "none").attr("stroke", "green");
+		graph.append("svg:path").attr("d", line(data2)).attr("fill", "none").attr("stroke", "blue");
 
-			var area1 = d3.svg.area()
-					  // .interpolate("cardinal")
-					  .x0( function(d) { return xscale(d) } )
-					  .x1( function(d) { return xscale(d) } )
-					  .y0( function(d) { return h-yscale(ones[d]) } )
-					  .y1( function(d) { return h-yscale(data[d]) } );
+		// area
+		var xscale = d3.scale.linear()
+		   .range([0, w / data1.length])
+		   .domain(indices);
 
-			graph.append('path')
-				.datum(indices)
-				.attr('class', 'area')
-				.attr('fill', 'green')
-				.attr('opacity', 0.2)
-				.attr('d', area1);
+		var yscale = d3.scale.linear()
+		  .range([0, h])
+		  .domain([0,10]);
 
-            var area2 = d3.svg.area()
-                      // .interpolate("cardinal")
-                      .x0( function(d) { return xscale(d) } )
-                      .x1( function(d) { return xscale(d) } )
-                      .y0( function(d) { return h-yscale(data[d]) } )
-                      .y1( function(d) { return h-yscale(data2[d]) } );
+		console.log(xscale(1))
+		console.log(indices)
+		console.log(zeroes)
+		console.log(xscale)
 
-            graph.append('path')
-                .datum(indices)
-                .attr('class', 'area')
-                .attr('fill', 'blue')
-				.attr('opacity', 0.2)
-                .attr('d', area2);
+		var area1 = d3.svg.area()
+			// .interpolate("cardinal")
+			.x0( function(d) { return xscale(d) } )
+			.x1( function(d) { return xscale(d) } )
+			.y0( function(d) { return h-yscale(ones[d]) } )
+			.y1( function(d) { return h-yscale(data1[d]) } );
+
+		graph.append('path')
+			.datum(indices)
+			.attr('class', 'area')
+			.attr('fill', 'green')
+			.attr('opacity', 0.2)
+			.attr('d', area1);
+
+		var area2 = d3.svg.area()
+		        // .interpolate("cardinal")
+		        .x0( function(d) { return xscale(d) } )
+		        .x1( function(d) { return xscale(d) } )
+		        .y0( function(d) { return h-yscale(data1[d]) } )
+		        .y1( function(d) { return h-yscale(data2[d]) } );
+
+		graph.append('path')
+		  .datum(indices)
+		  .attr('class', 'area')
+		  .attr('fill', 'blue')
+		  .attr('opacity', 0.2)
+		  .attr('d', area2);
 
 	</script>
-
-
 
 	</body>
 </html>
