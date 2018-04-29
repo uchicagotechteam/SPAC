@@ -104,7 +104,11 @@
 			var num_lines = data.length;
 			// plotting the lines
 			for (var i = 0; i < num_lines; i++) {
-				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
+				graph.append("svg:path")
+					.attr("class", "line")
+					.attr("d", line(data[i]))
+					.attr("fill", "none")
+					.attr("stroke", colors[i]);
 			}
 			for (var i = 0; i < num_lines - 1; i++) {
 				var area = d3.svg.area()
@@ -119,12 +123,10 @@
 					.attr('class', 'area')
 					.attr('fill', colors[i+1])
 					.attr('opacity', 0.2)
-					.attr('d', area);
+					.attr('d', area)
 			}
 
 		}
-
-
 
 		// area
 		var xscale = d3.scale.linear()
