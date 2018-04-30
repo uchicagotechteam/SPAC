@@ -43,15 +43,31 @@
 		var h = 400 - m[0] - m[2]; // height
 
 		// create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
-		var data1 = [10, 9, 6, 7, 5, 2, 5, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 2, 5, 9, 8, 7];
-		var data2 = [10, 5, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3, 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
+		// var data1 = [10, 9, 6, 7, 5, 2, 5, 3, 8, 9, 3, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 6, 5, 9, 8, 7];
+		// var data2 = [10, 5, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3, 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
+
+		var num_years = 10;
+		// var num_categories = 7;
+		// var orig_pop = 43075, orig_add = 26692, orig_LOS = 1.9, orig_data = [orig_pop];
+		// for (var i = 0; i < num_years; i++) {
+				// orig_pop = populationStep(orig_pop, orig_add, orig_LOS);
+				// orig_data.push(orig_pop);
+		// }
+		// original line
+		// currently random hardcoded data; need to change to actual population numbers
+		orig_data = [43075, 46201, 48048, 49140, 49784, 50165, 50390, 50523, 50601, 50648, 50675];
+		mod_data_1 = [43075, 41201, 43048, 44140, 44784, 45165, 45390, 45523, 45601, 45648, 45675];
+		mod_data_2 = [43075, 36201, 33048, 39140, 34784, 40165, 35390, 40523, 35601, 40648, 35675];
+		mod_data_3 = [43075, 29201, 23048, 24140, 30784, 30165, 32390, 33523, 30601, 30648, 29675];
+
 
 		// X scale will fit all values from data[] within pixels 0-w
-		var x = d3.scale.linear().domain([0, data1.length]).range([0, w]);
+		var x = d3.scale.linear().domain([0, orig_data.length]).range([0, w]);
 		// Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
-		var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
+		// var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
 		// automatically determining max range can work something like this
-		// var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
+		var ymax = d3.max(orig_data);
+		var y = d3.scale.linear().domain([0, ymax]).range([h, 0]);
 
 		// create a line function that can convert data[] into x and y points
 		var line = d3.svg.line()
@@ -90,17 +106,17 @@
 		      .call(yAxisLeft);
 
 
-		var indices = d3.range( data1.length )
+		var indices = d3.range(orig_data.length)
 		var zeroes = []
 		var ones = []
-		for (var i = 0; i < data1.length; i++) {
+		for (var i = 0; i < orig_data.length; i++) {
 		  zeroes.push(0)
-		  ones.push(10)
+		  ones.push(ymax)
 		}
 
 
 		function plotLines(data, xscale, yscale) {
-			var colors = ["black", "green", "blue"];
+			var colors = ["black", "green", "blue", "red", "yellow", "orange"];
 			var num_lines = data.length;
 			// plotting the lines
 			for (var i = 0; i < num_lines; i++) {
@@ -155,58 +171,22 @@
 
 		}
 
-
-
-		// area
 		var xscale = d3.scale.linear()
-		   .range([0, w / data1.length])
+		   .range([0, w / orig_data.length])
 		   .domain(indices);
 
 		var yscale = d3.scale.linear()
 		  .range([0, h])
-		  .domain([0,10]);
+		  .domain([0, ymax]);
 
-		plotLines([ones, data1, data2], xscale, yscale);
+
+		// plotLines([ones, data1, data2], xscale, yscale);
+		plotLines([orig_data, mod_data_1, mod_data_2, mod_data_3], xscale, yscale);
 
 		// console.log(xscale(1))
 		// console.log(indices)
 		// console.log(zeroes)
 		// console.log(xscale)
-
-		// // Add the line by appending an svg:path element with the data line we created above
-		// // do this AFTER the axes above so that the line is above the tick-lines
-		// graph.append("svg:path").attr("d", line(ones)).attr("fill", "none").attr("stroke", "black");
-		// graph.append("svg:path").attr("d", line(data1)).attr("fill", "none").attr("stroke", "green");
-		// graph.append("svg:path").attr("d", line(data2)).attr("fill", "none").attr("stroke", "blue");
-
-
-		// var area1 = d3.svg.area()
-		// 	// .interpolate("cardinal")
-		// 	.x0( function(d) { return xscale(d) } )
-		// 	.x1( function(d) { return xscale(d) } )
-		// 	.y0( function(d) { return h-yscale(ones[d]) } )
-		// 	.y1( function(d) { return h-yscale(data1[d]) } );
-		//
-		// graph.append('path')
-		// 	.datum(indices)
-		// 	.attr('class', 'area')
-		// 	.attr('fill', 'green')
-		// 	.attr('opacity', 0.2)
-		// 	.attr('d', area1);
-		//
-		// var area2 = d3.svg.area()
-		//         // .interpolate("cardinal")
-		//         .x0( function(d) { return xscale(d) } )
-		//         .x1( function(d) { return xscale(d) } )
-		//         .y0( function(d) { return h-yscale(data1[d]) } )
-		//         .y1( function(d) { return h-yscale(data2[d]) } );
-		//
-		// graph.append('path')
-		//   .datum(indices)
-		//   .attr('class', 'area')
-		//   .attr('fill', 'blue')
-		//   .attr('opacity', 0.2)
-		//   .attr('d', area2);
 
 	</script>
 
