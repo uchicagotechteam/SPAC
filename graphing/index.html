@@ -74,8 +74,8 @@
 		var x = d3.scale.linear().domain([0, data1.length]).range([0, w]);
 		// Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
 		var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
-			// automatically determining max range can work something like this
-			// var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
+		// automatically determining max range can work something like this
+		// var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
 
 		// create a line function that can convert data[] into x and y points
 		var line = d3.svg.line()
@@ -96,7 +96,7 @@
 		var graph = d3.select("#graph").append("svg:svg")
 		      .attr("width", w + m[1] + m[3])
 		      .attr("height", h + m[0] + m[2])
-		    	.append("svg:g")
+		      .append("svg:g")
 		      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 		// create yAxis
 		var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
@@ -130,6 +130,7 @@
 			for (var i = 0; i < num_lines; i++) {
 				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
 			}
+			// shading the area
 			for (var i = 0; i < num_lines - 1; i++) {
 				var area = d3.svg.area()
 					// .interpolate("cardinal")
@@ -144,6 +145,36 @@
 					.attr('fill', colors[i+1])
 					.attr('opacity', 0.5)
 					.attr('d', area);
+			}
+			// putting circles at each data point
+			for (var i = 0; i < num_lines; i++) {
+				for (var j = 0; j < data[i].length; j++) {
+					var point = graph.append("svg:g");
+					var x = xscale(j);
+					var y = h-yscale(data[i][j]);
+
+					point.append("text")
+						.attr("font-family", "sans-serif")
+						.attr("font-size", "12px")
+						.attr("x", x - 1)
+						.attr("y", y - 3)
+						.attr("fill", colors[i]);
+					point.append("circle")
+						.attr("cx", x)
+						.attr("cy", y)
+						.attr("r", 4)
+						.attr("fill", colors[i]);
+
+					point.on("click", function(d) {
+						var current = d3.select(this);
+						var circ = current.select("circle");
+						var textbox = current.select("text");
+						var op = (circ.attr("opacity") == 0.2) ? 1.0 : 0.2;
+						var label = (circ.attr("opacity") == 0.2) ? "" : ("(" + circ.attr("cx") + "," + circ.attr("cy") + ")");
+						circ.attr("opacity", op);
+						textbox.text(label);
+						});
+				}
 			}
 
 		}
