@@ -84,6 +84,7 @@
 				// return the Y coordinate where we want to plot this datapoint
 				return y(d);
 			})
+
 		// Add an SVG element with the desired dimensions and margin.
 		var graph = d3.select("#graph").append("svg:svg")
 		      .attr("width", w + m[1] + m[3])
@@ -122,6 +123,7 @@
 			for (var i = 0; i < num_lines; i++) {
 				graph.append("svg:path").attr("d", line(data[i])).attr("fill", "none").attr("stroke", colors[i]);
 			}
+
 			// shading the area
 			for (var i = 0; i < num_lines - 1; i++) {
 				var area = d3.svg.area()
