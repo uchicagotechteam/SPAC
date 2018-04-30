@@ -3,7 +3,7 @@
 // define dimensions of graph
 var m = [80, 80, 80, 80]; // margins
 var w = 1000 - m[1] - m[3]; // width
-var h = 400 - m[0] - m[2]; // height
+var h = 600 - m[0] - m[2]; // height
 
 // create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
 // var data1 = [10, 9, 6, 7, 5, 2, 5, 3, 8, 9, 3, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 6, 5, 9, 8, 7];
@@ -22,7 +22,22 @@ orig_data = [43075, 46201, 48048, 49140, 49784, 50165, 50390, 50523, 50601, 5064
 mod_data_1 = [43075, 41201, 43048, 44140, 44784, 45165, 45390, 45523, 45601, 45648, 45675];
 mod_data_2 = [43075, 36201, 33048, 39140, 34784, 40165, 35390, 40523, 35601, 40648, 35675];
 mod_data_3 = [43075, 29201, 23048, 24140, 30784, 30165, 32390, 33523, 30601, 30648, 29675];
-
+var data4 = []
+for (var i=0; i<mod_data_3.length; i++) {
+  data4.push(.8*mod_data_3[i]);
+}
+var data5 = []
+for (var i=0; i<data4.length; i++) {
+  data5.push(.7*data4[i]);
+}
+var data6 = []
+for (var i=0; i<data5.length; i++) {
+  data6.push(.6*data5[i]);
+}
+var data7 = []
+for (var i=0; i<data6.length; i++) {
+  data7.push(.5*data6[i]);
+}
 
 // X scale will fit all values from data[] within pixels 0-w
 var x = d3.scale.linear().domain([0, orig_data.length]).range([0, w]);
@@ -79,7 +94,7 @@ for (var i = 0; i < orig_data.length; i++) {
 
 
 function plotLines(data, xscale, yscale) {
-  var colors = ["black", "green", "blue", "red", "yellow", "orange"];
+  var colors = ["black", "rgb(57, 151, 170)", "rgb(95, 49, 148)", "rgb(45, 42, 127)", "rgb(47, 142, 59)", "rgb(131, 44, 60)", "rgb(184, 90, 61)", "rgb(172, 57, 150)",];
   var num_lines = data.length;
   // plotting the lines
   for (var i = 0; i < num_lines; i++) {
@@ -98,7 +113,7 @@ function plotLines(data, xscale, yscale) {
       .datum(indices)
       .attr('class', 'area')
       .attr('fill', colors[i+1])
-      .attr('opacity', 0.2)
+      .attr('opacity', 0.5)
       .attr('d', area);
   }
   // putting circles at each data point
@@ -142,6 +157,12 @@ var yscale = d3.scale.linear()
   .range([0, h])
   .domain([0, ymax]);
 
+// plotLines([ones, data1, data2, data3, data4, data5, data6, data7], xscale, yscale);
 
 // plotLines([ones, data1, data2], xscale, yscale);
 plotLines([orig_data, mod_data_1, mod_data_2, mod_data_3], xscale, yscale);
+
+// console.log(xscale(1))
+// console.log(indices)
+// console.log(zeroes)
+// console.log(xscale)
