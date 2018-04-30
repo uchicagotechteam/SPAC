@@ -33,12 +33,15 @@ var ease = d3.easeBounce;
 // Current operational capacity with modifications =  54,500
 // In 2014, there were 54,000 people
 var current_op_cap = 54500;
+var intended_cap = 32000;
+
+var dot_index_filled = 0;
 
 function update() {
 		valVLengthOfStay = VLengthOfStay.slider('getValue');
 		valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
 		valNVLengthOfStay = NVLengthOfStay.slider('getValue');
-		valNVIncomingPrisoners = NVLengthOfStay.slider('getValue');
+		valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
 		console.log('Violent lengthOfStay', valVLengthOfStay);
 		console.log('Violent Incoming Prisoners', valVIncomingPrisoners);
 		console.log('NonViolent lengthOfStay', valNVLengthOfStay);
@@ -63,23 +66,23 @@ function update() {
 		var vPerc = ((vAfter10-vPpl)/current_op_cap);
 
 		colorPercentageNatM(0,1,"rgba(0,0,0,0.2)");
-		
+
 		colorPercentageNatM(1-totalPopPerc,1,"rgba(150,200,200,1)");
 		var percFilled = totalPopPerc;
 
 		if (nvPerc >= 0) {
-			colorPercentageNatM(1-(percFilled+nvPerc),1-percFilled,"blue");
+			colorPercentageNatM(1-(percFilled+nvPerc),1-percFilled,"rgba(85,122,149)");
 			percFilled = percFilled+nvPerc;
 		} else {
-			colorPercentageNatM(1-percFilled,(1-(percFilled+nvPerc)),"blue");
+			colorPercentageNatM(1-percFilled,(1-(percFilled+nvPerc)),"rgba(85,122,149)");
 			percFilled = percFilled+nvPerc;
 		}
 
 		if (vPerc >= 0) {
-			colorPercentageNatM(1-(percFilled+vPerc),1-percFilled,"red");
+			colorPercentageNatM(1-(percFilled+vPerc),1-percFilled,"rgba(252,68,69)");
 			percFilled = percFilled+vPerc;
 		} else {
-			colorPercentageNatM(1-percFilled,1-(percFilled+vPerc),"red");
+			colorPercentageNatM(1-percFilled,1-(percFilled+vPerc),"rgba(252,68,69)");
 			percFilled = percFilled+vPerc;
 		}
 
@@ -140,23 +143,28 @@ $(document)
 				for (var i=25; i <= width-25; i+=25) {
 						grid.append("circle")
 								  .attr("class", "circle")
-								  .attr("cx", i)
+								  .attr("cx", i-1000)
 								  .attr("cy", j)
 								  .attr("r", 8)
 								.style("fill", "rgba(0,0,0,0.2)")
 								.transition()
-								  .duration(0)
-									.on("end", function(){
-										grid.selectAll(".circle")
-										.on
-										.filter(function(d,k){i==3})
-										.transition()
-										.delay(0)
-										.duration(10)
-										.attr("cx",1000)
-										.ease(ease); // second ease
-									});
+								.delay(0)
+								.duration(2000)
+								.attr("cx",i);
+
+								// .transition()
+								//   .duration(0)
+								// 	.on("end", function(){
+								// 		grid.selectAll(".circle")
+								// 		.filter(function(d,k){j*(width/25)+i==3})
+								// 		.transition()
+								// 		.delay(0)
+								// 		.duration(10)
+								// 		.attr("cx",1000)
+								// 		.ease(ease); // second ease
+								// 	});
 				};
+				//setTimeout(function() {continue;},1000);
 			};
 
 
@@ -167,21 +175,21 @@ $(document)
 
 				VLengthOfStay = $("#VLengthOfStay")
 						.slider()
-						.on('slideStop', update);
+						.on('slide', update);
 				VIncomingPrisoners = $("#VIncomingPrisoners")
 						.slider()
-						.on('slideStop', update);
+						.on('slide', update);
 				NVLengthOfStay = $("#NVLengthOfStay")
 						.slider()
-						.on('slideStop', update);
+						.on('slide', update);
 				NVIncomingPrisoners = $("#NVIncomingPrisoners")
 						.slider()
-						.on('slideStop', update);
+						.on('slide', update);
 
 				valVLengthOfStay = VLengthOfStay.slider('getValue');
 				valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
 				valNVLengthOfStay = NVLengthOfStay.slider('getValue');
-				valNVIncomingPrisoners = NVLengthOfStay.slider('getValue');
+				valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
 
 				v1 = $('#v1');
 				v2 = $('#v2');

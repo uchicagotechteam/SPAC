@@ -2,13 +2,15 @@
 #violentCrimesContainer {
   padding-top: 20px;
   padding-left: 20px;
-  display: inline-block;
-  width: 45%; 
+  display: block;
+  margin: auto;
+  width: 45%;
 }
 
 #NonviolentCrimesContainer{
   padding-top: 20px;
-  display: inline-block;
+  margin: auto;
+  display: block;
   width:45%;
 }
 
@@ -18,4 +20,12 @@
 
 div {
   display:inline-block;
+}
+
+.grid {
+  border: 3px solid black;
+  border-radius: 25px;
+  display:block;
+  margin: auto;
+  width: 50%;
 }
