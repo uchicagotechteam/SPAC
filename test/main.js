@@ -27,6 +27,13 @@ var total_dots = 500*500/(25*25);
 
 var grid;
 
+var ease = d3.easeBounce;
+
+// Original intended capacity = 32,000
+// Current operational capacity with modifications =  54,500
+// In 2014, there were 54,000 people
+var current_op_cap = 54500;
+
 function update() {
 		valVLengthOfStay = VLengthOfStay.slider('getValue');
 		valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
@@ -43,26 +50,55 @@ function update() {
 
 		var vPpl = initialPopV_;
 		var nvPpl =  initialPopNV_;
+		var totalPop = vPpl + nvPpl;
 		var violentLos = losV_ * valVLengthOfStay / 100;
 		var nonViolentLos = losNV_ * valNVLengthOfStay / 100;
 		var violentInc = addV_ * valVIncomingPrisoners / 100;
 		var nonViolentInc = addNV_ * valNVIncomingPrisoners / 100;
 
-		var nvAfter10 = populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
-		var vAfter10 = populationStepYears(10, violentInc, violentLos, vPpl);
-		// console.log("nvAfter10", nvAfter10,"\n vAfter10", vAfter10);
-		colorPercentageNatM(0,1,"rgba(0,0,0,0.2)")
-		colorPercentageNatM(0,(nvPpl-nvAfter10)/nvPpl,"blue");
-		colorPercentageNatM((vPpl-vAfter10)/vPpl,(nvPpl-nvAfter10)/nvPpl,"red");
+		var nvAfter10 = vPpl - populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
+		var vAfter10 = nvPpl - populationStepYears(10, violentInc, violentLos, vPpl);
+		var totalPopPerc = totalPop/current_op_cap;
+		var nvPerc = ((nvAfter10-nvPpl)/current_op_cap);
+		var vPerc = ((vAfter10-vPpl)/current_op_cap);
+
+		colorPercentageNatM(0,1,"rgba(0,0,0,0.2)");
+		
+		colorPercentageNatM(1-totalPopPerc,1,"rgba(150,200,200,1)");
+		var percFilled = totalPopPerc;
+
+		if (nvPerc >= 0) {
+			colorPercentageNatM(1-(percFilled+nvPerc),1-percFilled,"blue");
+			percFilled = percFilled+nvPerc;
+		} else {
+			colorPercentageNatM(1-percFilled,(1-(percFilled+nvPerc)),"blue");
+			percFilled = percFilled+nvPerc;
+		}
+
+		if (vPerc >= 0) {
+			colorPercentageNatM(1-(percFilled+vPerc),1-percFilled,"red");
+			percFilled = percFilled+vPerc;
+		} else {
+			colorPercentageNatM(1-percFilled,1-(percFilled+vPerc),"red");
+			percFilled = percFilled+vPerc;
+		}
+
 }
 
-function colorNDotsAtM (m,n, color) {
- grid.selectAll(".circle").filter(function(d, i) {return (i >= m) && (i < m+n);}).style("fill", color);
+function colorDotsFromNToM (m,n, color) {
+ grid.selectAll(".circle").filter(function(d, i) {return ((i >= m) && (i < n));}).style("fill", color);
 }
 
-function colorPercentageNatM (percFilled, percToFill, color) {
-  colorNDotsAtM(Math.floor(percFilled*total_dots),Math.floor(percToFill*total_dots),color);
-  var percNowFilled = percFilled+percToFill;
+function colorPercentageNatM (percFilled, percToFillTo, color) {
+
+  if (percFilled > 1) {percFilled = 1;}
+	if (percFilled < 0) {percToFillTo = 0;}
+
+	if (percToFillTo > 1) {percToFillTo = 1;}
+	if (percToFillTo < 0) {percToFillTo = 0;}
+
+  colorDotsFromNToM(Math.floor(percFilled*total_dots),Math.floor(percToFillTo*total_dots),color);
+  var percNowFilled = percFilled+percToFillTo;
   return percNowFilled;
 }
 
@@ -90,10 +126,12 @@ function populationStep(prevPop, add, avgLos) {
 		return add * avgLos * (1.0 - expon) + prevPop * expon;
 }
 
+
+
 $(document)
 		.ready(function () {
 
-			grid = d3.select("body")
+			grid = d3.select(".grid")
 			   .append("svg")
 			   .attr("width", width)
 			   .attr("height", height);
@@ -101,13 +139,26 @@ $(document)
 			for (var j=25; j <= height-25; j+=25) {
 				for (var i=25; i <= width-25; i+=25) {
 						grid.append("circle")
-								.attr("class", "circle")
-								.attr("cx", i)
-								.attr("cy", j)
-								.attr("r", 8)
-								.style("fill", "rgba(0,0,0,0.2)");
+								  .attr("class", "circle")
+								  .attr("cx", i)
+								  .attr("cy", j)
+								  .attr("r", 8)
+								.style("fill", "rgba(0,0,0,0.2)")
+								.transition()
+								  .duration(0)
+									.on("end", function(){
+										grid.selectAll(".circle")
+										.on
+										.filter(function(d,k){i==3})
+										.transition()
+										.delay(0)
+										.duration(10)
+										.attr("cx",1000)
+										.ease(ease); // second ease
+									});
 				};
 			};
+
 
 				createSlider('VLengthOfStay');
 				createSlider('VIncomingPrisoners');
