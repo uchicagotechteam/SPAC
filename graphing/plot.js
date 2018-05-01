@@ -504,18 +504,19 @@ plotLines([{
   color: 'blue'
 }], xscale, yscale);
 
-setTimeout(function () {
-  var transform = function (a) {
+setInterval(function () {
+  var transform = function (a, c) {
     var b = [];
     for (let i = 0; i < a.length; i++) {
-      b.push(a[i] * .5);
+      b.push(a[i] * c);
     }
     return b;
   }
-  var orig_data2 = transform(orig_data);
-  var mod_data_12 = transform(mod_data_1);
-  var mod_data_22 = transform(mod_data_2);
-  var mod_data_32 = transform(mod_data_3);
+  var c = Math.random();
+  var orig_data2 = transform(orig_data, c);
+  var mod_data_12 = transform(mod_data_1, c);
+  var mod_data_22 = transform(mod_data_2, c);
+  var mod_data_32 = transform(mod_data_3, c);
   console.log("UPDATING LINES!");
   updateData([{
     line_data: orig_data2,
