@@ -5,6 +5,7 @@ var m = [80, 80, 80, 80]; // margins
 var w = 1000 - m[1] - m[3]; // width
 var h = 600 - m[0] - m[2]; // height
 
+var point;
 // create a simple data array that we'll plot with a line (this array represents
 // only the Y values, X will just be the index location) var data1 = [10, 9, 6,
 // 7, 5, 2, 5, 3, 8, 9, 3, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 6, 5, 9, 8,
@@ -129,7 +130,7 @@ var graph = d3
 var xAxis = d3
   .axisBottom(x)
   .tickSize(-h)
-  // .tickSubdivide(true);
+// .tickSubdivide(true);
 // Add the x-axis.
 graph
   .append("svg:g")
@@ -155,11 +156,11 @@ for (var i = 0; i < orig_data.length; i++) {
   ones.push(ymax)
 }
 
-function updateData(lines, xscale, yscale) {
+function updateData(lines2, xscale, yscale) {
 
   graph
     .selectAll('.line')
-    .data(lines)
+    .data(lines2)
     // .update()
     .transition()
     .attr("d", function (d) {
@@ -200,14 +201,17 @@ function updateData(lines, xscale, yscale) {
         ]);
       }
       console.log(next);
-      to_return.push({color: lines[i].color, area_data: next});
+      to_return.push({
+        color: lines[i].color,
+        area_data: next
+      });
     }
     return to_return;
   }
 
   var nextGraph = graph
     .selectAll('.area')
-    .data(pairLines(lines));
+    .data(pairLines(lines2));
 
   nextGraph
     .transition()
@@ -221,6 +225,77 @@ function updateData(lines, xscale, yscale) {
       console.log("PLOTTING SECOND data ", d.area_data);
       return area(d.area_data);
     })
+
+  var expandLines = function (lines2) {
+    a = []
+    lines2.forEach(function (lin) {
+      lin.line_data.forEach(function (y, ind) {
+        a.push({
+          color: lin.color,
+          x: ind,
+          y: y
+        });
+      })
+    });
+    return a;
+  };
+  console.log("FUCKKK\n\n\n\n\n", expandLines(lines2));
+
+  point = graph.selectAll('.point')
+    .data(expandLines(lines2))
+
+  var things = point.enter()
+    .append("g")
+    .attr("class", "point")
+
+
+  things.append("circle").attr("cx", function (d) {
+      console.log("appending x:", d);
+      return xscale(d.x);
+    })
+    .attr("cy", function (d) {
+      return h - yscale(d.y);
+    })
+    .attr("r", 4)
+    .attr("fill", function (d) {
+      return d.color;
+    });
+
+  things.append("text").attr("font-family", "sans-serif")
+    .attr("font-size", "12px").attr("x", function (d) {
+      console.log("appending x:", d);
+      return xscale(d.x);
+    }).attr("y", function (d) {
+      return h - yscale(d.y);
+    })
+    .attr("fill", function (d) {
+      return "black";
+    });
+
+  point.select('circle').transition()
+    .attr("cx", function (d) {
+      console.log("modifying", d);
+      return xscale(d.x);
+    })
+    .attr("cy", function (d) {
+      return h - yscale(d.y);
+    })
+    .attr("r", 4)
+    .attr("fill", function (d) {
+      return d.color;
+    });
+
+  point.select('text')
+    .attr("font-size", "12px").attr("x", function (d) {
+      // console.log("appending x:", d);
+      return xscale(d.x);
+    }).attr("y", function (d) {
+      return h - yscale(d.y);
+    })
+    .attr("fill", function (d) {
+      return "black";
+    });
+
 
 }
 
@@ -282,7 +357,10 @@ function plotLines(lines, xscale, yscale) {
         ]);
       }
       console.log(next);
-      to_return.push({color: lines[i].color, area_data: next});
+      to_return.push({
+        color: lines[i].color,
+        area_data: next
+      });
     }
     return to_return;
   }
@@ -303,26 +381,98 @@ function plotLines(lines, xscale, yscale) {
       return area(d.area_data);
     })
 
-  //   //shading the area   for (var i = 0; i < num_lines - 1; i++) {     let area
-  // = d3       .svg       .area() // .interpolate("cardinal")     .x0(function
-  // (d) {     return xscale(d)     })     .x1(function (d) {       return
-  // xscale(d)     })     .y0(function (d) {       return h - yscale(data[i][d])
-  // })     .y1(function (d) {       return h - yscale(data[i + 1][d])     });
-  // graph     .append('path')     .datum(indices)     .attr('class', 'area')
-  // .attr('fill', colors[i + 1])     .attr('opacity', 0.5)     .attr('d', area);
+  //shading the area   for (var i = 0; i < num_lines - 1; i++) {     let area
+  //   = d3.svg.area() // .interpolate("cardinal")     .x0(function
+  //   (d) {
+  //     return xscale(d)
+  //   }).x1(function (d) {
+  //   return
+  //   xscale(d)
+  // }).y0(function (d) {
+  //   return h - yscale(data[i][d])
+  // }).y1(function (d) {
+  //   return h - yscale(data[i + 1][d])
+  // });
+  // graph.append('path').datum(indices).attr('class', 'area')
+  //   .attr('fill', colors[i + 1]).attr('opacity', 0.5).attr('d', area);
   // } // putting circles at each data point for (var i = 0; i < num_lines; i++) {
-  // for (var j = 0; j < data[i].length; j++) {   var point =
-  // graph.append("svg:g");   var x = xscale(j);   var y = h - yscale(data[i][j]);
-  //   point     .append("text")     .attr("font-family", "sans-serif")
-  // .attr("font-size", "12px")     .attr("x", x - 1)     .attr("y", y - 3)
-  // .attr("fill", colors[i]);   point     .append("circle")     .attr("cx", x)
-  // .attr("cy", y)     .attr("r", 4)     .attr("fill", colors[i]);
-  // point.on("click", function (d) {     var current = d3.select(this);     var
-  // circ = current.select("circle");     var textbox = current.select("text");
-  // var op = (circ.attr("opacity") == 0.2)       ? 1.0       : 0.2;     var label
-  // = (circ.attr("opacity") == 0.2)       ? ""       : ("(" + circ.attr("cx") +
-  // "," + circ.attr("cy") + ")");     circ.attr("opacity", op);
-  // textbox.text(label);   }); } }
+  var expandLines = function (lines) {
+    a = []
+    lines.forEach(function (line) {
+      line.line_data.forEach(function (y, ind) {
+        a.push({
+          color: line.color,
+          x: ind,
+          y: y
+        });
+      })
+    })
+    return a;
+  };
+  // console.log("FUCKKK\n\n\n\n\n",expandLines(lines));
+  point = graph.selectAll('.point')
+    .data(expandLines(lines))
+    .enter()
+    .append("g")
+    .attr("class", "point")
+
+  point.append("circle").attr("cx", function (d) {
+      console.log("appending x:", d);
+      return xscale(d.x);
+    })
+    .attr("cy", function (d) {
+      return h - yscale(d.y);
+    })
+    .attr("r", 4)
+    .attr("fill", function (d) {
+      return d.color;
+    });
+
+  point.append("text").attr("font-family", "sans-serif")
+    .attr("font-size", "12px").attr("x", function (d) {
+      console.log("appending x:", d);
+      return xscale(d.x);
+    }).attr("y", function (d) {
+      return h - yscale(d.y);
+    })
+    .attr("fill", function (d) {
+      return "black";
+    });
+
+
+  point.on("click", function (d) {
+    var current = d3.select(this);
+    var circ = current.select("circle");
+    var textbox = current.select("text");
+    var op = (circ.attr("opacity") == 0.2) ? 1.0 : 0.2;
+    var label = (circ.attr("opacity") == 0.2) ? "" : ("(" + circ.attr("cx") +
+      "," + circ.attr("cy") + ")");
+    circ.attr("opacity", op);
+    textbox.text(label);
+  })
+
+  // for (var j = 0; j < data[i].length; j++) {
+  //   var point =
+  //     graph.append("svg:g");
+  //   var x = xscale(j);
+  //   var y = h - yscale(data[i][j]);
+  //   point.append("text").attr("font-family", "sans-serif")
+  //     .attr("font-size", "12px").attr("x", x - 1).attr("y", y - 3)
+  //     .attr("fill", colors[i]);
+  //   point.append("circle").attr("cx", x)
+  //     .attr("cy", y).attr("r", 4).attr("fill", colors[i]);
+  //   point.on("click", function (d) {
+  //     var current = d3.select(this);
+  //     var
+  //       circ = current.select("circle");
+  //     var textbox = current.select("text");
+  //     var op = (circ.attr("opacity") == 0.2) ? 1.0 : 0.2;
+  //     var label = (circ.attr("opacity") == 0.2) ? "" : ("(" + circ.attr("cx") +
+  //       "," + circ.attr("cy") + ")");
+  //     circ.attr("opacity", op);
+  //     textbox.text(label);
+  //   });
+  // }
 
 }
 
@@ -340,21 +490,19 @@ var yscale = d3
 
 // plotLines([ones, data1, data2, data3, data4, data5, data6, data7], xscale,
 // yscale); plotLines([ones, data1, data2], xscale, yscale);
-plotLines([
-  {
-    line_data: orig_data,
-    color: 'blue'
-  }, {
-    line_data: mod_data_1,
-    color: 'red'
-  }, {
-    line_data: mod_data_2,
-    color: 'orange'
-  }, {
-    line_data: mod_data_3,
-    color: 'blue'
-  }
-], xscale, yscale);
+plotLines([{
+  line_data: orig_data,
+  color: 'blue'
+}, {
+  line_data: mod_data_1,
+  color: 'red'
+}, {
+  line_data: mod_data_2,
+  color: 'orange'
+}, {
+  line_data: mod_data_3,
+  color: 'blue'
+}], xscale, yscale);
 
 setTimeout(function () {
   var transform = function (a) {
@@ -369,21 +517,19 @@ setTimeout(function () {
   var mod_data_22 = transform(mod_data_2);
   var mod_data_32 = transform(mod_data_3);
   console.log("UPDATING LINES!");
-  updateData([
-    {
-      line_data: orig_data2,
-      color: 'blue'
-    }, {
-      line_data: mod_data_12,
-      color: 'red'
-    }, {
-      line_data: mod_data_22,
-      color: 'orange'
-    }, {
-      line_data: mod_data_32,
-      color: 'blue'
-    }
-  ], xscale, yscale);
+  updateData([{
+    line_data: orig_data2,
+    color: 'blue'
+  }, {
+    line_data: mod_data_12,
+    color: 'red'
+  }, {
+    line_data: mod_data_22,
+    color: 'orange'
+  }, {
+    line_data: mod_data_32,
+    color: 'blue'
+  }], xscale, yscale);
 }, 2000);
 
 // console.log(xscale(1)) console.log(indices) console.log(zeroes)
