@@ -161,6 +161,7 @@ function updateData(lines, xscale, yscale) {
     .selectAll('.line')
     .data(lines)
     // .update()
+    .transition()
     .attr("d", function (d) {
       console.log("COOOOOOOOOOOOOOL! \n\n\n\nswitching the lines!", d.line_data);
       return line(d.line_data);
@@ -209,6 +210,7 @@ function updateData(lines, xscale, yscale) {
     .data(pairLines(lines));
 
   nextGraph
+    .transition()
     .attr('class', 'area')
     .attr('opacity', 0.5)
     .attr('fill', function (d) {
