@@ -7,9 +7,9 @@ var h = 600 - m[0] - m[2]; // height
 
 // create a simple data array that we'll plot with a line (this array represents
 // only the Y values, X will just be the index location) var data1 = [10, 9, 6,
-// 7, 5, 2, 5, 3, 8, 9, 3, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 6, 5, 9,
-// 8, 7]; var data2 = [10, 5, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3,
-// 3, 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
+// 7, 5, 2, 5, 3, 8, 9, 3, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 6, 5, 9, 8,
+// 7]; var data2 = [10, 5, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3,
+// 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
 
 var num_years = 10;
 // var num_categories = 7; var orig_pop = 43075, orig_add = 26692, orig_LOS =
@@ -88,8 +88,7 @@ for (var i = 0; i < data6.length; i++) {
 
 // X scale will fit all values from data[] within pixels 0-w
 var x = d3
-  .scale
-  .linear()
+  .scaleLinear()
   .domain([0, orig_data.length])
   .range([0, w]);
 // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain
@@ -98,14 +97,12 @@ var x = d3
 // like this
 var ymax = d3.max(orig_data);
 var y = d3
-  .scale
-  .linear()
+  .scaleLinear()
   .domain([0, ymax])
   .range([h, 0]);
 
 // create a line function that can convert data[] into x and y points
 var line = d3
-  .svg
   .line()
   // assign the X function to plot our line as we wish
   .x(function (d, i) {
@@ -130,11 +127,9 @@ var graph = d3
   .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 // create yAxis
 var xAxis = d3
-  .svg
-  .axis()
-  .scale(x)
+  .axisBottom(x)
   .tickSize(-h)
-  .tickSubdivide(true);
+  // .tickSubdivide(true);
 // Add the x-axis.
 graph
   .append("svg:g")
@@ -143,11 +138,8 @@ graph
   .call(xAxis);
 // create left yAxis
 var yAxisLeft = d3
-  .svg
-  .axis()
-  .scale(y)
+  .axisLeft(y)
   .ticks(4)
-  .orient("left");
 // Add the y-axis to the left
 graph
   .append("svg:g")
@@ -163,22 +155,23 @@ for (var i = 0; i < orig_data.length; i++) {
   ones.push(ymax)
 }
 
-function update(lines, xscale, yscale) {
+function updateData(lines, xscale, yscale) {
 
   graph
     .selectAll('.line')
     .data(lines)
+    // .update()
     .attr("d", function (d) {
       console.log("COOOOOOOOOOOOOOL! \n\n\n\nswitching the lines!", d.line_data);
       return line(d.line_data);
     })
     .attr("fill", "none")
     .attr("stroke", function (d) {
+      console.log("COOOOOOOOOOOOOOL! \n\n\n\nswitching the lines!", d.line_data);
       return d.color;
     });
 
   var area = d3
-    .svg
     .area()
     .x0(function (d, i) {
       return xscale(i);
@@ -211,10 +204,11 @@ function update(lines, xscale, yscale) {
     return to_return;
   }
 
-  graph
+  var nextGraph = graph
     .selectAll('.area')
-    .data(pairLines(lines))
-    // .append('path')
+    .data(pairLines(lines));
+
+  nextGraph
     .attr('class', 'area')
     .attr('opacity', 0.5)
     .attr('fill', function (d) {
@@ -224,7 +218,7 @@ function update(lines, xscale, yscale) {
     .attr("d", function (d) {
       console.log("PLOTTING SECOND data ", d.area_data);
       return area(d.area_data);
-    }).transition().duration(750);
+    })
 
 }
 
@@ -253,12 +247,12 @@ function plotLines(lines, xscale, yscale) {
     .attr("fill", "none")
     .attr("stroke", function (d) {
       return d.color;
-    });
+    })
+    .attr("class", "line");
 
   // shading the area
 
   var area = d3
-    .svg
     .area()
     .x0(function (d, i) {
       return xscale(i);
@@ -311,36 +305,34 @@ function plotLines(lines, xscale, yscale) {
   // = d3       .svg       .area() // .interpolate("cardinal")     .x0(function
   // (d) {     return xscale(d)     })     .x1(function (d) {       return
   // xscale(d)     })     .y0(function (d) {       return h - yscale(data[i][d])
-  //   })     .y1(function (d) {       return h - yscale(data[i + 1][d])     });
+  // })     .y1(function (d) {       return h - yscale(data[i + 1][d])     });
   // graph     .append('path')     .datum(indices)     .attr('class', 'area')
   // .attr('fill', colors[i + 1])     .attr('opacity', 0.5)     .attr('d', area);
-  // } // putting circles at each data point for (var i = 0; i < num_lines; i++)
-  // { for (var j = 0; j < data[i].length; j++) {   var point =
+  // } // putting circles at each data point for (var i = 0; i < num_lines; i++) {
+  // for (var j = 0; j < data[i].length; j++) {   var point =
   // graph.append("svg:g");   var x = xscale(j);   var y = h - yscale(data[i][j]);
   //   point     .append("text")     .attr("font-family", "sans-serif")
   // .attr("font-size", "12px")     .attr("x", x - 1)     .attr("y", y - 3)
   // .attr("fill", colors[i]);   point     .append("circle")     .attr("cx", x)
-  //  .attr("cy", y)     .attr("r", 4)     .attr("fill", colors[i]);
+  // .attr("cy", y)     .attr("r", 4)     .attr("fill", colors[i]);
   // point.on("click", function (d) {     var current = d3.select(this);     var
   // circ = current.select("circle");     var textbox = current.select("text");
-  //  var op = (circ.attr("opacity") == 0.2)       ? 1.0       : 0.2;     var
-  // label = (circ.attr("opacity") == 0.2)       ? ""       : ("(" +
-  // circ.attr("cx") + "," + circ.attr("cy") + ")");     circ.attr("opacity", op);
-  //     textbox.text(label);   }); } }
+  // var op = (circ.attr("opacity") == 0.2)       ? 1.0       : 0.2;     var label
+  // = (circ.attr("opacity") == 0.2)       ? ""       : ("(" + circ.attr("cx") +
+  // "," + circ.attr("cy") + ")");     circ.attr("opacity", op);
+  // textbox.text(label);   }); } }
 
 }
 
 var xscale = d3
-  .scale
-  .linear()
+  .scaleLinear()
   .range([
     0, w / orig_data.length
   ])
   .domain(indices);
 
 var yscale = d3
-  .scale
-  .linear()
+  .scaleLinear()
   .range([0, h])
   .domain([0, ymax]);
 
@@ -375,7 +367,7 @@ setTimeout(function () {
   var mod_data_22 = transform(mod_data_2);
   var mod_data_32 = transform(mod_data_3);
   console.log("UPDATING LINES!");
-  update([
+  updateData([
     {
       line_data: orig_data2,
       color: 'blue'
