@@ -1,21 +1,30 @@
 
 #violentCrimesContainer {
-  padding-top: 20px;
-  padding-left: 20px;
+  padding-top: 0px;
+  /* padding-left: 20px; */
   display: block;
   margin: auto;
-  width: 45%;
+  width: 50%;
 }
 
 #NonviolentCrimesContainer{
-  padding-top: 20px;
+  /* padding-top: 20px; */
   margin: auto;
   display: block;
-  width:45%;
+  width: 50%;
 }
 
 .slider-item {
   padding-bottom: 20px;
+}
+
+.slider-box {
+  width: 45%;
+}
+
+.crime-type-name {
+  /* padding-left: 150px; */
+  text-align: center;
 }
 
 div {

@@ -2,8 +2,8 @@
 
 // define dimensions of graph
 var m = [80, 80, 80, 80]; // margins
-var w = 1000 - m[1] - m[3]; // width
-var h = 600 - m[0] - m[2]; // height
+var w = 800 - m[1] - m[3]; // width
+var h = 450 - m[0] - m[2]; // height
 
 var point;
 // create a simple data array that we'll plot with a line (this array represents
@@ -159,7 +159,7 @@ for (var i = 0; i < orig_data.length; i++) {
 function updateData(lines2, xscale, yscale) {
 
   plotLines(lines2, xscale, yscale);
-  
+
   graph
     .selectAll('.line')
     .data(lines2)
@@ -204,7 +204,7 @@ function updateData(lines2, xscale, yscale) {
       }
       console.log(next);
       to_return.push({
-        color: lines[i].color,
+        color: lines[i+1].color,
         area_data: next
       });
     }

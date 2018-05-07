@@ -47,31 +47,39 @@
 	<div id="graph" class="aGraph"></div>
 
   <div id="violentCrimesContainer">
-    <div class="slider-item">
-    <h1> Violent Crimes </h1>
-        <h5>% Reduction in length of stay: <div id='v1'></div></h5>
-          <input id="VLengthOfStay" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="2.5"
-        data-slider-value="0" class='sliders' />
+    <h3 class="crime-type-name">Crime Type 1</h3>
+    <div id="slider-1-1" class="slider-box">
+      <div class="slider-item">
+          <h5>Reduce Avg. Length of Stay by: <div id='v1'></div>%</h5>
+            <input id="VLengthOfStay" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="2.5"
+          data-slider-value="0" class='sliders' />
+      </div>
     </div>
-    <div class="slider-item">
-        <h5>% Reduction in Incoming Prisoners: <div id='v2'></div></h5>
-          <input id="VIncomingPrisoners" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="2.5"
-        data-slider-value="0" class='sliders' />
+    <div id="slider-1-2" class="slider-box">
+      <div class="slider-item">
+          <h5>Reduce Incoming Prisoners by: <div id='v2'></div>%</h5>
+            <input id="VIncomingPrisoners" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="2.5"
+          data-slider-value="0" class='sliders' />
+      </div>
     </div>
   </div>
 
   <div id="NonviolentCrimesContainer">
-      <h1> Non-Violent Crimes </h1>
-        <h5>% Reduction in length of stay: <div id='v3'></div></h5>
+    <h3 class="crime-type-name">Crime Type 2</h3>
+    <div id="slider-2-1" class="slider-box">
+        <h5>Reduce Avg. Length of Stay by: <div id='v3'></div>%</h5>
       <div class="slider-item">
         <input id="NVLengthOfStay" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="2.5"
           data-slider-value="0" class='sliders' />
       </div>
-      <h5>% Reduction in Incoming Prisoners: <div id='v4'></div></h5>
+    </div>
+    <div id="slider-2-2" class="slider-box">
+      <h5>Reduce Incoming Prisoners by: <div id='v4'></div>%</h5>
         <div class="slider-item">
           <input id="NVIncomingPrisoners" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="2.5"
             data-slider-value="0" class='sliders' />
         </div>
+      </div>
   </div>
 </body>
 

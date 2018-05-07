@@ -96,7 +96,7 @@ function update() {
 		// console.log(data2);
 		// console.log(data3);
 		updateData(
-			[{
+			[		{
 				    line_data: data1,
 				    color: 'blue'
 				  }, {
