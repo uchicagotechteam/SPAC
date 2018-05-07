@@ -158,6 +158,8 @@ for (var i = 0; i < orig_data.length; i++) {
 
 function updateData(lines2, xscale, yscale) {
 
+  plotLines(lines2, xscale, yscale);
+  
   graph
     .selectAll('.line')
     .data(lines2)
@@ -239,7 +241,7 @@ function updateData(lines2, xscale, yscale) {
     });
     return a;
   };
-  console.log("FUCKKK\n\n\n\n\n", expandLines(lines2));
+  // console.log("FUCKKK\n\n\n\n\n", expandLines(lines2));
 
   point = graph.selectAll('.point')
     .data(expandLines(lines2))
@@ -490,48 +492,48 @@ var yscale = d3
 
 // plotLines([ones, data1, data2, data3, data4, data5, data6, data7], xscale,
 // yscale); plotLines([ones, data1, data2], xscale, yscale);
-plotLines([{
-  line_data: orig_data,
-  color: 'blue'
-}, {
-  line_data: mod_data_1,
-  color: 'red'
-}, {
-  line_data: mod_data_2,
-  color: 'orange'
-}, {
-  line_data: mod_data_3,
-  color: 'blue'
-}], xscale, yscale);
+// plotLines([{
+//   line_data: orig_data,
+//   color: 'blue'
+// }, {
+//   line_data: mod_data_1,
+//   color: 'red'
+// }, {
+//   line_data: mod_data_2,
+//   color: 'orange'
+// }, {
+//   line_data: mod_data_3,
+//   color: 'blue'
+// }], xscale, yscale);
 
-setInterval(function () {
-  var transform = function (a, c) {
-    var b = [];
-    for (let i = 0; i < a.length; i++) {
-      b.push(a[i] * c);
-    }
-    return b;
-  }
-  var c = Math.random();
-  var orig_data2 = transform(orig_data, c);
-  var mod_data_12 = transform(mod_data_1, c);
-  var mod_data_22 = transform(mod_data_2, c);
-  var mod_data_32 = transform(mod_data_3, c);
-  console.log("UPDATING LINES!");
-  updateData([{
-    line_data: orig_data2,
-    color: 'blue'
-  }, {
-    line_data: mod_data_12,
-    color: 'red'
-  }, {
-    line_data: mod_data_22,
-    color: 'orange'
-  }, {
-    line_data: mod_data_32,
-    color: 'blue'
-  }], xscale, yscale);
-}, 2000);
+// setInterval(function () {
+//   var transform = function (a, c) {
+//     var b = [];
+//     for (let i = 0; i < a.length; i++) {
+//       b.push(a[i] * c);
+//     }
+//     return b;
+//   }
+//   var c = Math.random();
+//   var orig_data2 = transform(orig_data, c);
+//   var mod_data_12 = transform(mod_data_1, c);
+//   var mod_data_22 = transform(mod_data_2, c);
+//   var mod_data_32 = transform(mod_data_3, c);
+//   console.log("UPDATING LINES!");
+//   updateData([{
+//     line_data: orig_data2,
+//     color: 'blue'
+//   }, {
+//     line_data: mod_data_12,
+//     color: 'red'
+//   }, {
+//     line_data: mod_data_22,
+//     color: 'orange'
+//   }, {
+//     line_data: mod_data_32,
+//     color: 'blue'
+//   }], xscale, yscale);
+// }, 2000);
 
 // console.log(xscale(1)) console.log(indices) console.log(zeroes)
 // console.log(xscale)
