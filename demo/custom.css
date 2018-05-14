@@ -1,0 +1,40 @@
+
+#violentCrimesContainer {
+  padding-top: 0px;
+  padding-left: 10%;
+  display: inline-block;
+  margin: auto;
+  width: 60%;
+}
+
+#NonviolentCrimesContainer{
+  padding-left: 10%;
+  margin: auto;
+  display: inline-block;
+  width: 60%;
+}
+
+.slider-item {
+  padding-bottom: 20px;
+}
+
+.slider-box {
+  width: 45%;
+}
+
+.crime-type-name {
+  padding-left: 30%;
+  /* text-align: center; */
+}
+
+div {
+  display:inline-block;
+}
+
+.grid {
+  border: 3px solid black;
+  border-radius: 25px;
+  display:block;
+  margin: auto;
+  width: 50%;
+}
