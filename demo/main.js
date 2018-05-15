@@ -111,7 +111,7 @@ function update() {
 
 
 		updateData(
-			[		{
+			[	  {
 				    line_data: data1,
 				    color: 'blue'
 				  }, {
