@@ -461,7 +461,7 @@ function plotLines(lines, xscale, yscale) {
     });
 
   point.append("text").attr("font-family", "sans-serif")
-    .attr("font-size", "12px").attr("x", function (d) {
+    .attr("font-size", "12px").attr("class","point_label").attr("x", function (d) {
       console.log("appending x:", d);
       return xscale(d.x);
     }).attr("y", function (d) {
@@ -473,6 +473,8 @@ function plotLines(lines, xscale, yscale) {
 
 
   point.on("click", function (d) {
+    graph.selectAll('.point_label').text("");
+    graph.selectAll('.point').select("circle").attr("opacity",1);
     var current = d3.select(this);
     var circ = current.select("circle");
     var textbox = current.select("text");
@@ -480,6 +482,8 @@ function plotLines(lines, xscale, yscale) {
     var label = (circ.attr("opacity") == 0.2) ? "" : ("After " + circ.attr("x") + " yrs: " + formatNumber(circ.attr("y")));
     circ.attr("opacity", op);
     textbox.text(label);
+    projection_length = circ.attr("x");
+    update();
   })
 
   // for (var j = 0; j < data[i].length; j++) {

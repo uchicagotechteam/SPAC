@@ -98,7 +98,7 @@ function update() {
 		// console.log(data2);
 		// console.log(data3);
 
-		var projection_length = 10;
+		//var projection_length = 10;
 
 		var UnalteredNVAfterNYears = orgNV[projection_length-1];
 		var UnalteredVAfterNYears = orgV[projection_length-1];
@@ -129,6 +129,8 @@ function update() {
 		// 		orig_data = [orig_pop];
 
 		// var regularData = updateData(data, xscale, yscale);
+
+		grid.select("text").text("Affect of Policy Modifications in "+projection_length+" Years" );
 
 		 colorPercentageNatM(0, 1, "rgba(0,0,0,0.2)");
 
@@ -216,7 +218,7 @@ $(document)
 						.attr("width", width)
 						.attr("height", height);
 
-				 for (var j=25; j <= height-25; j+=25) {
+				 for (var j=25; j <= height-30; j+=25) {
 					 for (var i=25; i <= width-25; i+=25)
 				 	 {
 					 grid.append("circle")
@@ -241,8 +243,16 @@ $(document)
 							}); };
 				 //setTimeout(function() {continue;},1000);
 			 	 };
-				 grid.append("text").attr("x",(2/3)*width).attr("y",height).attr("font-family", "sans-serif")
-			     .attr("font-size", "12px").text("Affect of Policy Modifications in "+projection_length+" Years" );
+				 grid.append("line")          // attach a line
+    			.style("stroke", "black")  // colour the line
+    			.attr("x1", 25)     // x position of the first end of the line
+    			.attr("y1", height-30)      // y position of the first end of the line
+    			.attr("x2", width/2)     // x position of the second end of the line
+    			.attr("y2", height-30)
+					.attr('stroke-width', 3);
+
+				 grid.append("text").attr("x",25).attr("y",height-5).attr("font-family", "sans-serif")
+			     .attr("font-size", "20px").text("Affect of Policy Modifications in "+projection_length+" Years" );
 
 				createSlider('VLengthOfStay');
 				createSlider('VIncomingPrisoners');
