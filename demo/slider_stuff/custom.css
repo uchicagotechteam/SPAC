@@ -1,0 +1,70 @@
+
+#violentCrimesContainer {
+  /* padding-top: 0px; */
+  /* padding-left: 0%; */
+  padding: 0;
+  display: inline-block;
+  margin: auto;
+  width: 49%;
+  border-style: solid;
+  border-color: black;
+  /* zoom: .5; */
+  /* -moz-transform: scale(0.5); */
+}
+
+#NonviolentCrimesContainer{
+  /* zoom: .5; */
+  /* -moz-transform: scale(0.5); */
+  padding:0;
+  margin: auto;
+  display: inline-block;
+  width: 49%;
+  border-style: solid;
+  border-color: black;
+}
+
+.slider-item {
+  padding-bottom: 20px;
+}
+
+div.big-slider .slider.slider-horizontal {
+  width: 210px;
+  height: 20px;
+}
+
+div.small-slider .slider.slider-horizontal {
+  width: 150px;
+  height: 20px;
+}
+
+div.small-slider .slider.slider-horizontal .slider-track {
+  height: 5px;
+}
+
+.small-slider {
+  margin-left: 10%;
+}
+
+.crime-type-name {
+  padding-left: 30%;
+  /* text-align: center; */
+}
+
+div {
+  display:inline-block;
+}
+
+.
+.grid {
+  border: 3px solid black;
+  border-radius: 25px;
+  display:block;
+  margin: auto;
+  width: 50%;
+}
+
+.sub-category1 {
+  border-right-style: solid;
+  /* border-left-style: solid; */
+  border-color: black;
+}
