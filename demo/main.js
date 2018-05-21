@@ -23,7 +23,10 @@ var v4;
 
 var width = 450;
 var height = 450;
-var total_dots = 500 * 500 / (25 * 25);
+var dot_grid_width = width-25;
+var dot_grid_height = height - 30;
+
+var total_dots = Math.floor(dot_grid_width*dot_grid_height/ (25 * 25));
 var projection_length = 10;
 
 var grid;
@@ -100,10 +103,10 @@ function update() {
 
 		//var projection_length = 10;
 
-		var UnalteredNVAfterNYears = orgNV[projection_length-1];
-		var UnalteredVAfterNYears = orgV[projection_length-1];
-		var AlteredNVAfterNYears = upV[projection_length-1];
-		var AlteredVAfterNYears =  upNV[projection_length-1];
+		var UnalteredNVAfterNYears = orgNV[projection_length];
+		var UnalteredVAfterNYears = orgV[projection_length];
+		var AlteredNVAfterNYears = upV[projection_length];
+		var AlteredVAfterNYears =  upNV[projection_length];
 		var totalPopPerc = (UnalteredNVAfterNYears + UnalteredVAfterNYears) / current_op_cap;
 		var nvPerc = ((AlteredNVAfterNYears - UnalteredNVAfterNYears) / current_op_cap);
 		var vPerc = ((AlteredVAfterNYears - UnalteredVAfterNYears) / current_op_cap);
@@ -218,8 +221,8 @@ $(document)
 						.attr("width", width)
 						.attr("height", height);
 
-				 for (var j=25; j <= height-30; j+=25) {
-					 for (var i=25; i <= width-25; i+=25)
+				 for (var j=25; j <= dot_grid_height; j+=25) {
+					 for (var i=25; i <= dot_grid_width; i+=25)
 				 	 {
 					 grid.append("circle")
 					 		.attr("class", "circle")
