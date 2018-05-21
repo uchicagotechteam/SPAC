@@ -74,7 +74,7 @@ function update () {
 			'admissions' : {
 				'x': nvax * dnvax,
 				'12' : nvay * dnvay,
-				'34' : nvaz * nvaz	
+				'34' : nvaz * dnvaz	
 			}, 'los' : {
 				'x' : nvlx * dnvlx,
 				'12' : nvly * dnvly,
@@ -83,8 +83,8 @@ function update () {
 		}
 	};
 
-	console.log(obj);
-	return obj;
+	updateStuff(obj);
+
 }
 
 $(document)
