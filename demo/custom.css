@@ -32,9 +32,11 @@ div {
 }
 
 .grid {
-  border: 3px solid black;
-  border-radius: 25px;
-  display:block;
-  margin: auto;
-  width: 50%;
+  /*border: 3px solid black;*/
+  /*border-radius: 25px;*/
+  /*display:block;*/
+  /*margin: auto;*/
+  /*width: 50%;*/
+  margin-top: 80px;
+  margin-bottom: 80px;
 }

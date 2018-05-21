@@ -21,13 +21,18 @@ var v2;
 var v3;
 var v4;
 
-var width = 500;
-var height = 500;
-var total_dots = 500 * 500 / (25 * 25);
+var width = 450;
+var height = 450;
+var dot_grid_width = width-25;
+var dot_grid_height = height - 30;
+
+var total_dots = Math.floor(dot_grid_width*dot_grid_height/ (25 * 25));
+var projection_length = 10;
 
 var grid;
 
 var ease = d3.easeBounce;
+
 
 // Original intended capacity = 32,000 Current operational capacity with
 // modifications =  54,500 In 2014, there were 54,000 people
@@ -78,11 +83,11 @@ function update() {
 		var violentInc = addV_ * (100 - valVIncomingPrisoners) / 100;
 		var nonViolentInc = addNV_ * (100 - valNVIncomingPrisoners) / 100;
 
-		// var nvAfter10 = vPpl - populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
-		// var vAfter10 = nvPpl - populationStepYears(10, violentInc, violentLos, vPpl);
-		// var totalPopPerc = totalPop / current_op_cap;
-		// var nvPerc = ((nvAfter10 - nvPpl) / current_op_cap);
-		// var vPerc = ((vAfter10 - vPpl) / current_op_cap);
+		//var nvAfter10 = vPpl - populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
+		//var vAfter10 = nvPpl - populationStepYears(10, violentInc, violentLos, vPpl);
+		//var totalPopPerc = totalPop / current_op_cap;
+		//var nvPerc = ((nvAfter10 - nvPpl) / current_op_cap);
+		//var vPerc = ((vAfter10 - vPpl) / current_op_cap);
 
 		var numYears = 20;
 		var upV = generateData(vPpl, violentInc, violentLos, numYears);
@@ -95,8 +100,21 @@ function update() {
 		// console.log(data1);
 		// console.log(data2);
 		// console.log(data3);
+
+		//var projection_length = 10;
+
+		var UnalteredNVAfterNYears = orgNV[projection_length];
+		var UnalteredVAfterNYears = orgV[projection_length];
+		var AlteredNVAfterNYears = upV[projection_length];
+		var AlteredVAfterNYears =  upNV[projection_length];
+		var totalPopPerc = (UnalteredNVAfterNYears + UnalteredVAfterNYears) / current_op_cap;
+		var nvPerc = ((AlteredNVAfterNYears - UnalteredNVAfterNYears) / current_op_cap);
+		var vPerc = ((AlteredVAfterNYears - UnalteredVAfterNYears) / current_op_cap);
+
+
+
 		updateData(
-			[		{
+			[	  {
 				    line_data: data1,
 				    color: 'blue'
 				  }, {
@@ -115,26 +133,28 @@ function update() {
 
 		// var regularData = updateData(data, xscale, yscale);
 
-		// colorPercentageNatM(0, 1, "rgba(0,0,0,0.2)");
+		grid.select("text").text("Affect of Policy Modifications in "+projection_length+" Years" );
 
-		// colorPercentageNatM(1 - totalPopPerc, 1, "rgba(150,200,200,1)");
-		// var percFilled = totalPopPerc;
+		 colorPercentageNatM(0, 1, "rgba(0,0,0,0.2)");
 
-		// if (nvPerc >= 0) {
-		// 		colorPercentageNatM(1 - (percFilled + nvPerc), 1 - percFilled, "rgba(85,122,149)");
-		// 		percFilled = percFilled + nvPerc;
-		// } else {
-		// 		colorPercentageNatM(1 - percFilled, (1 - (percFilled + nvPerc)), "rgba(85,122,149)");
-		// 		percFilled = percFilled + nvPerc;
-		// }
+		 colorPercentageNatM(1 - totalPopPerc, 1, "rgba(150,200,200,1)");
+		 var percFilled = totalPopPerc;
 
-		// if (vPerc >= 0) {
-		// 		colorPercentageNatM(1 - (percFilled + vPerc), 1 - percFilled, "rgba(252,68,69)");
-		// 		percFilled = percFilled + vPerc;
-		// } else {
-		// 		colorPercentageNatM(1 - percFilled, 1 - (percFilled + vPerc), "rgba(252,68,69)");
-		// 		percFilled = percFilled + vPerc;
-		// }
+		 if (nvPerc >= 0) {
+		 		colorPercentageNatM(1 - (percFilled + nvPerc), 1 - percFilled, "red"); //rgba(85,122,149)
+		 		percFilled = percFilled + nvPerc;
+		 } else {
+		 		colorPercentageNatM(1 - percFilled, (1 - (percFilled + nvPerc)), "red");
+		 		percFilled = percFilled + nvPerc;
+		 }
+
+		 if (vPerc >= 0) {
+		 		colorPercentageNatM(1 - (percFilled + vPerc), 1 - percFilled, "orange"); //rgba(252,68,69)
+		 		percFilled = percFilled + vPerc;
+		 } else {
+		 		colorPercentageNatM(1 - percFilled, 1 - (percFilled + vPerc), "orange");
+		 		percFilled = percFilled + vPerc;
+		 }
 
 }
 
@@ -201,14 +221,41 @@ $(document)
 						.attr("width", width)
 						.attr("height", height);
 
-				// for (var j=25; j <= height-25; j+=25) { for (var i=25; i <= width-25; i+=25)
-				// { grid.append("circle") .attr("class", "circle") .attr("cx", i-1000)
-				// .attr("cy", j) .attr("r", 8) .style("fill", "rgba(0,0,0,0.2)") .transition()
-				// .delay(0) .duration(2000) .attr("cx",i); .transition()   .duration(0)
-				// 	.on("end", function(){ 		grid.selectAll(".circle")
-				// 		.filter(function(d,k){j*(width/25)+i==3}) 		.transition() 		.delay(0)
-				// 		.duration(10) 		.attr("cx",1000) 		.ease(ease); // second ease 	}); };
-				// setTimeout(function() {continue;},1000); };
+				 for (var j=25; j <= dot_grid_height; j+=25) {
+					 for (var i=25; i <= dot_grid_width; i+=25)
+				 	 {
+					 grid.append("circle")
+					 		.attr("class", "circle")
+							.attr("cx", i-1000)
+				 			.attr("cy", j) .attr("r", 8)
+							.style("fill", "rgba(0,0,0,0.2)")
+							.transition()
+				 			.delay(0)
+							.duration(2000)
+							.attr("cx",i)
+							.transition()
+							.duration(0)
+			 	 			.on("end", function(){
+								grid.selectAll(".circle")
+				 						.filter(function(d,k){j*(width/25)+i==3})
+										.transition()
+										.delay(0)
+				 						.duration(10)
+										.attr("cx",1000)
+										.ease(ease); // second ease
+							}); };
+				 //setTimeout(function() {continue;},1000);
+			 	 };
+				 grid.append("line")          // attach a line
+    			.style("stroke", "black")  // colour the line
+    			.attr("x1", 25)     // x position of the first end of the line
+    			.attr("y1", height-30)      // y position of the first end of the line
+    			.attr("x2", width/2)     // x position of the second end of the line
+    			.attr("y2", height-30)
+					.attr('stroke-width', 3);
+
+				 grid.append("text").attr("x",25).attr("y",height-5).attr("font-family", "sans-serif")
+			     .attr("font-size", "20px").text("Affect of Policy Modifications in "+projection_length+" Years" );
 
 				createSlider('VLengthOfStay');
 				createSlider('VIncomingPrisoners');

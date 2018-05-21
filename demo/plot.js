@@ -87,6 +87,18 @@ for (var i = 0; i < data6.length; i++) {
   data7.push(.5 * data6[i]);
 }
 
+// prerequisite: n should be less than 6 digits long
+function formatNumber(n) {
+    var res = Math.round(n).toString();
+    var l = res.length;
+    if (l > 3 && l < 7) {
+        return res.substring(0,l-3) + "," + res.substring(l-3,l);
+    }
+    else {
+        return res;
+    }
+}
+
 // X scale will fit all values from data[] within pixels 0-w
 var x = d3
   .scaleLinear()
@@ -261,6 +273,12 @@ function updateData(lines2, xscale, yscale) {
     .attr("r", 4)
     .attr("fill", function (d) {
       return d.color;
+    })
+    .attr("x", function(d) {
+        return d.x;
+    })
+    .attr("y", function(d) {
+        return d.y;
     });
 
   things.append("text").attr("font-family", "sans-serif")
@@ -285,17 +303,23 @@ function updateData(lines2, xscale, yscale) {
     .attr("r", 4)
     .attr("fill", function (d) {
       return d.color;
+    })
+    .attr("x", function(d) {
+        return d.x;
+    })
+    .attr("y", function(d) {
+        return d.y;
     });
 
   point.select('text')
     .attr("font-size", "12px").attr("x", function (d) {
       // console.log("appending x:", d);
-      return xscale(d.x);
+      return xscale(d.x) - 5;
     }).attr("y", function (d) {
-      return h - yscale(d.y);
+      return h - yscale(d.y) - 10;
     })
     .attr("fill", function (d) {
-      return "black";
+      return d.color;
     });
 
 
@@ -428,10 +452,16 @@ function plotLines(lines, xscale, yscale) {
     .attr("r", 4)
     .attr("fill", function (d) {
       return d.color;
+    })
+    .attr("x", function(d) {
+        return d.x;
+    })
+    .attr("y", function(d) {
+        return d.y;
     });
 
   point.append("text").attr("font-family", "sans-serif")
-    .attr("font-size", "12px").attr("x", function (d) {
+    .attr("font-size", "12px").attr("class","point_label").attr("x", function (d) {
       console.log("appending x:", d);
       return xscale(d.x);
     }).attr("y", function (d) {
@@ -443,14 +473,17 @@ function plotLines(lines, xscale, yscale) {
 
 
   point.on("click", function (d) {
+    graph.selectAll('.point_label').text("");
+    graph.selectAll('.point').select("circle").attr("opacity",1);
     var current = d3.select(this);
     var circ = current.select("circle");
     var textbox = current.select("text");
     var op = (circ.attr("opacity") == 0.2) ? 1.0 : 0.2;
-    var label = (circ.attr("opacity") == 0.2) ? "" : ("(" + circ.attr("cx") +
-      "," + circ.attr("cy") + ")");
+    var label = (circ.attr("opacity") == 0.2) ? "" : ("After " + circ.attr("x") + " yrs: " + formatNumber(circ.attr("y")));
     circ.attr("opacity", op);
     textbox.text(label);
+    projection_length = circ.attr("x");
+    update();
   })
 
   // for (var j = 0; j < data[i].length; j++) {
