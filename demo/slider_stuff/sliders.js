@@ -1,7 +1,7 @@
 function createSlider(name) {
   $('#' + name).slider({
       formatter: function (value) {
-          return 'Current percentage: ' + value + '%';
+          return 'Current percentage change: ' + value + '%';
       }
   });
 
