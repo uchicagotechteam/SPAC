@@ -59,20 +59,20 @@ function update () {
 
     var obj = {
         // uncomment and add values once Nate provides them
-        // 'population' :
-        // {
-        //     'violent' : {
-        //         'x' : ,
-        //         '12' : ,
-        //         '34' :
-        //
-        //     },
-        //     'nonviolent' : {
-        //         'x' : ,
-        //         '12' : ,
-        //         '34' :
-        //     }
-        // },
+        'population' :
+        {
+            'violent' : {
+                'x' : 0,
+                '12' : 0,
+                '34' : 0
+
+            },
+            'nonviolent' : {
+                'x' : 0,
+                '12' : 0,
+                '34' : 0
+            }
+        },
         'original' : {
             'violent' : {
                 'x' : {
@@ -189,6 +189,54 @@ $(document)
 					$('#NVLengthOfStayZ').slider('setValue', toSet);
 					update();
 				});
+
+                $('#VAdmissionsX').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#VAdmissionsY').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#VAdmissionsZ').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#VLengthOfStayX').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#VLengthOfStayY').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#VLengthOfStayZ').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#NVAdmissionsX').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#NVAdmissionsY').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#NVAdmissionsZ').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#NVLengthOfStayX').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#NVLengthOfStayY').slider().on('slide', function () {
+                    update();
+                });
+
+                $('#NVLengthOfStayZ').slider().on('slide', function () {
+                    update();
+                });
 
 				// $('#NVAdmissionsT').slider().on('slide', function () {
 				// 	var toSet = $('#NVAdmissionsT').slider('getValue');
