@@ -58,37 +58,83 @@ function update () {
 	var nvlz = adjust($('#NVLengthOfStayZ').slider('getValue') / 100);
 
     var obj = {
-		'violent' : {
-            'x' : {
-                'admissions' : vax * dvax,
-                'los' : vlx * dvlx
+        // uncomment and add values once Nate provides them
+        // 'population' :
+        // {
+        //     'violent' : {
+        //         'x' : ,
+        //         '12' : ,
+        //         '34' :
+        //
+        //     },
+        //     'nonviolent' : {
+        //         'x' : ,
+        //         '12' : ,
+        //         '34' :
+        //     }
+        // },
+        'original' : {
+            'violent' : {
+                'x' : {
+                    'admissions' : dvax,
+                    'los' : dvlx
+                },
+                '12' : {
+                    'admissions' : dvay,
+                    'los' : dvly
+                },
+                '34' : {
+                    'admissions': dvaz,
+                    'los' : dvlz
+                }
             },
-            '12' : {
-                'admissions' : vay * dvay,
-                'los' : vly * dvly
-            },
-            '34' : {
-                'admissions': vaz * dvaz,
-                'los' : vlz * dvlz
+            'nonviolent' : {
+                'x' : {
+                    'admissions' : dnvax,
+                    'los' : dnvlx
+                },
+                '12' : {
+                    'admissions' : dnvay,
+                    'los' : dnvly
+                },
+                '34' : {
+                    'admissions': dnvaz,
+                    'los' : dnvlz
+                }
             }
         },
-		'nonviolent' : {
-            'x' : {
-                'admissions' : nvax * dnvax,
-                'los' : nvlx * dnvlx
+        'updated' : {
+    		'violent' : {
+                'x' : {
+                    'admissions' : vax * dvax,
+                    'los' : vlx * dvlx
+                },
+                '12' : {
+                    'admissions' : vay * dvay,
+                    'los' : vly * dvly
+                },
+                '34' : {
+                    'admissions': vaz * dvaz,
+                    'los' : vlz * dvlz
+                }
             },
-            '12' : {
-                'admissions' : nvay * dnvay,
-                'los' : nvly * dnvly
-            },
-            '34' : {
-                'admissions': nvaz * dnvaz,
-                'los' : nvlz * dnvlz
+            'nonviolent' : {
+                'x' : {
+                    'admissions' : nvax * dnvax,
+                    'los' : nvlx * dnvlx
+                },
+                '12' : {
+                    'admissions' : nvay * dnvay,
+                    'los' : nvly * dnvly
+                },
+                '34' : {
+                    'admissions': nvaz * dnvaz,
+                    'los' : nvlz * dnvlz
+                }
             }
         }
 	};
-
-	updateStuff(obj);
+	updatePlots(obj);
 
 }
 
