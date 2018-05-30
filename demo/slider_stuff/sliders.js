@@ -31,7 +31,7 @@ function update () {
 	var dvlx = 9.17;
 	var dvly = 2.55;
 	var dvlz = .9;
-	
+
 	var dnvax = 412;
 	var dnvay = 4752;
 	var dnvaz = 8803;
@@ -57,30 +57,35 @@ function update () {
 	var nvly = adjust($('#NVLengthOfStayY').slider('getValue') / 100);
 	var nvlz = adjust($('#NVLengthOfStayZ').slider('getValue') / 100);
 
-	var obj = {
+    var obj = {
 		'violent' : {
-			'admissions' : {
-				'x': vax * dvax,
-				'12' : vay * dvay,
-				'34' : vaz * dvaz
-			},
-			'los' : {
-				'x' : vlx * dvlx,
-				'12' : vly * dvly,
-				'34' : vlz * dvlz
-			}
-		},
+            'x' : {
+                'admissions' : vax * dvax,
+                'los' : vlx * dvlx
+            },
+            '12' : {
+                'admissions' : vay * dvay,
+                'los' : vly * dvly
+            },
+            '34' : {
+                'admissions': vaz * dvaz,
+                'los' : vlz * dvlz
+            }
+        },
 		'nonviolent' : {
-			'admissions' : {
-				'x': nvax * dnvax,
-				'12' : nvay * dnvay,
-				'34' : nvaz * dnvaz	
-			}, 'los' : {
-				'x' : nvlx * dnvlx,
-				'12' : nvly * dnvly,
-				'34' : nvlz * dnvlz
-			}
-		}
+            'x' : {
+                'admissions' : nvax * dnvax,
+                'los' : nvlx * dnvlx
+            },
+            '12' : {
+                'admissions' : nvay * dnvay,
+                'los' : nvly * dnvly
+            },
+            '34' : {
+                'admissions': nvaz * dnvaz,
+                'los' : nvlz * dnvlz
+            }
+        }
 	};
 
 	updateStuff(obj);
@@ -89,7 +94,7 @@ function update () {
 
 $(document)
 		.ready(function () {
-      
+
 				createSlider('VAdmissionsT');
 				createSlider('VAdmissionsX');
 				createSlider('VAdmissionsY');
@@ -111,7 +116,7 @@ $(document)
 					var toSet = $('#VAdmissionsT').slider('getValue');
 					$('#VAdmissionsX').slider('setValue', toSet);
 					$('#VAdmissionsY').slider('setValue', toSet);
-					$('#VAdmissionsZ').slider('setValue', toSet);	
+					$('#VAdmissionsZ').slider('setValue', toSet);
 					update();
 				});
 
@@ -119,7 +124,7 @@ $(document)
 					var toSet = $('#VLengthOfStayT').slider('getValue');
 					$('#VLengthOfStayX').slider('setValue', toSet);
 					$('#VLengthOfStayY').slider('setValue', toSet);
-					$('#VLengthOfStayZ').slider('setValue', toSet);	
+					$('#VLengthOfStayZ').slider('setValue', toSet);
 					update();
 				});
 
@@ -127,7 +132,7 @@ $(document)
 					var toSet = $('#NVAdmissionsT').slider('getValue');
 					$('#NVAdmissionsX').slider('setValue', toSet);
 					$('#NVAdmissionsY').slider('setValue', toSet);
-					$('#NVAdmissionsZ').slider('setValue', toSet);	
+					$('#NVAdmissionsZ').slider('setValue', toSet);
 					update();
 				});
 
@@ -135,7 +140,7 @@ $(document)
 					var toSet = $('#NVLengthOfStayT').slider('getValue');
 					$('#NVLengthOfStayX').slider('setValue', toSet);
 					$('#NVLengthOfStayY').slider('setValue', toSet);
-					$('#NVLengthOfStayZ').slider('setValue', toSet);	
+					$('#NVLengthOfStayZ').slider('setValue', toSet);
 					update();
 				});
 
@@ -143,7 +148,7 @@ $(document)
 				// 	var toSet = $('#NVAdmissionsT').slider('getValue');
 				// 	$('#NVAdmissionsX').slider('setValue', toSet);
 				// 	$('#NVAdmissionsY').slider('setValue', toSet);
-				// 	$('#NVAdmissionsZ').slider('setValue', toSet);	
+				// 	$('#NVAdmissionsZ').slider('setValue', toSet);
 				// 	console.log("UPDATED");
 				// });
 				// VLengthOfStay = $("#VLengthOfStay")
