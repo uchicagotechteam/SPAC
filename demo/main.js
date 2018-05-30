@@ -68,7 +68,7 @@ function generateData(ppl, inc, los, numYears) {
 
 function updatePlots(params) {
 	var numYears = 20;
-	
+
 	var upV_X = generateData(params['population']['violent']['x'],
 					params['updated']['violent']['x']['admissions'],
 					params['updated']['violent']['x']['los'], numYears);
@@ -115,6 +115,29 @@ function updatePlots(params) {
 	var data1 = addLists([orgV, orgNV]);
 	var data2 = addLists([orgNV, upV]);
 	var data3 = addLists([upV, upNV]);
+
+	var UnalteredNVAfterNYears = orgNV[projection_length];
+	var UnalteredVAfterNYears = orgV[projection_length];
+	var AlteredNVAfterNYears = upV[projection_length];
+	var AlteredVAfterNYears =  upNV[projection_length];
+	var totalPopPerc = (UnalteredNVAfterNYears + UnalteredVAfterNYears) / current_op_cap;
+	var nvPerc = ((AlteredNVAfterNYears - UnalteredNVAfterNYears) / current_op_cap);
+	var vPerc = ((AlteredVAfterNYears - UnalteredVAfterNYears) / current_op_cap);
+
+
+
+	updateData(
+		[	  {
+				line_data: data1,
+				color: 'blue'
+			  }, {
+				line_data: data2,
+				color: 'red'
+			  }, {
+				line_data: data3,
+				color: 'orange'
+			  }], xscale, yscale
+	);
 }
 
 function update() {
