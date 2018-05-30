@@ -21,10 +21,10 @@ var v2;
 var v3;
 var v4;
 
-var width = 450;
-var height = 450;
+var width = 350;
+var height = 350;
 var dot_grid_width = width-25;
-var dot_grid_height = height - 30;
+var dot_grid_height = height-30;
 
 var total_dots = Math.floor(dot_grid_width*dot_grid_height/ (25 * 25));
 var projection_length = 10;
@@ -227,7 +227,7 @@ $(document)
 					 grid.append("circle")
 					 		.attr("class", "circle")
 							.attr("cx", i-1000)
-				 			.attr("cy", j) .attr("r", 8)
+				 			.attr("cy", j) .attr("r", 7)
 							.style("fill", "rgba(0,0,0,0.2)")
 							.transition()
 				 			.delay(0)
