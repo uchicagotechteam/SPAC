@@ -13,7 +13,7 @@
   padding: 0;
   display: inline-block;
   margin: auto;
-  margin-top: 2%;
+  /* margin-top: 2%; */
   margin-left: 1%;
   width: 49%;
   border-style: solid;
@@ -31,7 +31,7 @@
   padding:0;
   display: inline-block;
   margin: auto;
-  margin-top: 2%;
+  /* margin-top: 2%; */
   width: 49%;
   border-style: solid;
   border-color: black;
@@ -79,7 +79,14 @@ div {
 }
 
 .aGraph {
-  display:block;
+  margin: auto;
+  position: relative;
+  display: block;
+}
+
+svg {
+    margin: auto;
+    display: flex;
 }
 
 .grid {

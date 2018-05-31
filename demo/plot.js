@@ -1,7 +1,7 @@
 /* implementation heavily influenced by http://bl.ocks.org/1166403 */
 
 // define dimensions of graph
-var m = [80, 80, 80, 80]; // margins
+var m = [50, 80, 50, 80]; // margins
 var w = 800 - m[1] - m[3]; // width
 var h = 450 - m[0] - m[2]; // height
 
