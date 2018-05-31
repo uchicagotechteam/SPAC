@@ -16,11 +16,7 @@ function createSlider(name) {
 6,905
 
 function adjust (a) {
-	if (a > 0) {
-		return 1 + a;
-	} else {
-		return 1 - a;
-	}
+    return 1+a;
 }
 
 function update () {
@@ -62,15 +58,15 @@ function update () {
         'population' :
         {
             'violent' : {
-                'x' : 0,
-                '12' : 0,
-                '34' : 0
+                'x' : 16686,
+                '12' : 4408,
+                '34' : 1418
 
             },
             'nonviolent' : {
-                'x' : 0,
-                '12' : 0,
-                '34' : 0
+                'x' : 1777,
+                '12' : 8496,
+                '34' : 5567
             }
         },
         'original' : {
@@ -134,6 +130,7 @@ function update () {
             }
         }
 	};
+    console.log("OBJECT:", obj);
 	updatePlots(obj);
 
 }

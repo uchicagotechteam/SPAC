@@ -54,14 +54,22 @@ function addLists(lists) {
 	return to_return;
 }
 
+function subLists(list1, list2) {
+	var to_return = [];
+	for (let i = 0; i < list1.length; i++) {
+		to_return.push(list1[i] - list2[i]);
+	}
+	return to_return;
+}
+
 function generateData(ppl, inc, los, numYears) {
 	console.log("Generating : ", ppl, inc, los, numYears);
 	var pop = ppl;
 	var data = [];
 	data.push(pop);
 	for (var i = 0; i < num_years; i++) {
-				pop = populationStep(pop, inc, los);
-				data.push(pop);
+			pop = populationStep(pop, inc, los);
+			data.push(pop);
 		}
 	return data;
 }
@@ -112,6 +120,10 @@ function updatePlots(params) {
 	var upNV = addLists([upNV_X, upNV_12, upNV_34]);
 	var orgV = addLists([orgV_X, orgV_12, orgV_34]);
 	var orgNV = addLists([orgNV_X, orgNV_12, orgNV_34]);
+	console.log('upV', upV);
+	console.log('upNV', upNV);
+	console.log('orgV', orgV);
+	console.log('orgNV', orgNV);
 	var data1 = addLists([orgV, orgNV]);
 	var data2 = addLists([orgNV, upV]);
 	var data3 = addLists([upV, upNV]);
@@ -173,10 +185,6 @@ function update() {
 		var upNV = generateData(nvPpl, nonViolentInc, nonViolentLos, numYears);
 		var orgV = generateData(initialPopV_, addV_, losV_, numYears);
 		var orgNV = generateData(initialPopNV_, addNV_, losNV_, numYears);
-		console.log('upV', upV);
-		console.log('upNV', upNV);
-		console.log('orgV', orgV);
-		console.log('orgNV', orgNV);
 		var data1 = addLists(orgV, orgNV);
 		var data2 = addLists(orgNV, upV);
 		var data3 = addLists(upV, upNV);
@@ -283,16 +291,16 @@ function createSlider(name) {
 // add 26692 lost 1.9 current prision Pop 43,075
 
 function populationStepYears(years, add, avgLos, start) {
-		var pop = start;
-		for (var i = 0; i < years; i++) {
-				pop = populationStep(pop, add, avgLos);
-		}
-		return pop;
+	var pop = start;
+	for (var i = 0; i < years; i++) {
+		pop = populationStep(pop, add, avgLos);
+	}
+	return pop;
 }
 
 function populationStep(prevPop, add, avgLos) {
-		var expon = Math.exp(-1.0 / avgLos);
-		return add * avgLos * (1.0 - expon) + prevPop * expon;
+	var expon = Math.exp(-1.0 / avgLos);
+	return add * avgLos * (1.0 - expon) + prevPop * expon;
 }
 
 $(document)
