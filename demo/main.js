@@ -1,3 +1,7 @@
+// GLOBAL PARAMETERS
+var numYears = 10;
+var ymax = 60000;
+
 var valVLengthOfStay = 0;
 var valVIncomingPrisoners = 0;
 var valNVLengthOfStay = 0;
@@ -54,20 +58,28 @@ function addLists(lists) {
 	return to_return;
 }
 
+function subLists(list1, list2) {
+	var to_return = [];
+	for (let i = 0; i < list1.length; i++) {
+		to_return.push(list1[i] - list2[i]);
+	}
+	return to_return;
+}
+
 function generateData(ppl, inc, los, numYears) {
 	console.log("Generating : ", ppl, inc, los, numYears);
 	var pop = ppl;
 	var data = [];
 	data.push(pop);
-	for (var i = 0; i < num_years; i++) {
-				pop = populationStep(pop, inc, los);
-				data.push(pop);
+	for (var i = 0; i < numYears; i++) {
+			pop = populationStep(pop, inc, los);
+			data.push(pop);
 		}
 	return data;
 }
 
 function updatePlots(params) {
-	var numYears = 20;
+	// var numYears = 20;
 
 	var upV_X = generateData(params['population']['violent']['x'],
 					params['updated']['violent']['x']['admissions'],
@@ -123,6 +135,10 @@ function updatePlots(params) {
 	var upNV = addLists([upNV_X, upNV_12, upNV_34]);
 	var orgV = addLists([orgV_X, orgV_12, orgV_34]);
 	var orgNV = addLists([orgNV_X, orgNV_12, orgNV_34]);
+	console.log('upV', upV);
+	console.log('upNV', upNV);
+	console.log('orgV', orgV);
+	console.log('orgNV', orgNV);
 	var data1 = addLists([orgV, orgNV]);
 	var data2 = addLists([orgNV, upV]);
 	var data3 = addLists([upV, upNV]);
@@ -151,106 +167,102 @@ function updatePlots(params) {
 	);
 }
 
-function update() {
-		valVLengthOfStay = VLengthOfStay.slider('getValue');
-		valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
-		valNVLengthOfStay = NVLengthOfStay.slider('getValue');
-		valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
-		console.log('Violent lengthOfStay', valVLengthOfStay);
-		console.log('Violent Incoming Prisoners', valVIncomingPrisoners);
-		console.log('NonViolent lengthOfStay', valNVLengthOfStay);
-		console.log('Nonviolent incomingPrisoners', valNVIncomingPrisoners);
-		v1.html(valVLengthOfStay);
-		v2.html(valVIncomingPrisoners);
-		v3.html(valNVLengthOfStay);
-		v4.html(valNVIncomingPrisoners);
-
-		var vPpl = initialPopV_;
-		var nvPpl = initialPopNV_;
-		var totalPop = vPpl + nvPpl;
-		var violentLos = losV_ * (100 -valVLengthOfStay) / 100;
-		var nonViolentLos = losNV_ * (100 - valNVLengthOfStay) / 100;
-		var violentInc = addV_ * (100 - valVIncomingPrisoners) / 100;
-		var nonViolentInc = addNV_ * (100 - valNVIncomingPrisoners) / 100;
-
-		//var nvAfter10 = vPpl - populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
-		//var vAfter10 = nvPpl - populationStepYears(10, violentInc, violentLos, vPpl);
-		//var totalPopPerc = totalPop / current_op_cap;
-		//var nvPerc = ((nvAfter10 - nvPpl) / current_op_cap);
-		//var vPerc = ((vAfter10 - vPpl) / current_op_cap);
-
-		var numYears = 20;
-		var upV = generateData(vPpl, violentInc, violentLos, numYears);
-		var upNV = generateData(nvPpl, nonViolentInc, nonViolentLos, numYears);
-		var orgV = generateData(initialPopV_, addV_, losV_, numYears);
-		var orgNV = generateData(initialPopNV_, addNV_, losNV_, numYears);
-		console.log('upV', upV);
-		console.log('upNV', upNV);
-		console.log('orgV', orgV);
-		console.log('orgNV', orgNV);
-		var data1 = addLists(orgV, orgNV);
-		var data2 = addLists(orgNV, upV);
-		var data3 = addLists(upV, upNV);
-		// console.log(data1);
-		// console.log(data2);
-		// console.log(data3);
-
-		//var projection_length = 10;
-
-		var UnalteredNVAfterNYears = orgNV[projection_length];
-		var UnalteredVAfterNYears = orgV[projection_length];
-		var AlteredNVAfterNYears = upV[projection_length];
-		var AlteredVAfterNYears =  upNV[projection_length];
-		var totalPopPerc = (UnalteredNVAfterNYears + UnalteredVAfterNYears) / current_op_cap;
-		var nvPerc = ((AlteredNVAfterNYears - UnalteredNVAfterNYears) / current_op_cap);
-		var vPerc = ((AlteredVAfterNYears - UnalteredVAfterNYears) / current_op_cap);
-
-
-
-		updateData(
-			[	  {
-				    line_data: data1,
-				    color: 'blue'
-				  }, {
-				    line_data: data2,
-				    color: 'red'
-				  }, {
-				    line_data: data3,
-				    color: 'orange'
-				  }], xscale, yscale
-		);
-		// var num_categories = 7;
-		// var orig_pop = 43075,
-		// 		orig_add = 26692,
-		// 		orig_LOS = 1.9,
-		// 		orig_data = [orig_pop];
-
-		// var regularData = updateData(data, xscale, yscale);
-
-		grid.select("text").text("Affect of Policy Modifications in "+projection_length+" Years" );
-
-		 colorPercentageNatM(0, 1, "rgba(0,0,0,0.2)");
-
-		 colorPercentageNatM(1 - totalPopPerc, 1, "rgba(150,200,200,1)");
-		 var percFilled = totalPopPerc;
-
-		 if (nvPerc >= 0) {
-		 		colorPercentageNatM(1 - (percFilled + nvPerc), 1 - percFilled, "red"); //rgba(85,122,149)
-		 		percFilled = percFilled + nvPerc;
-		 } else {
-		 		colorPercentageNatM(1 - percFilled, (1 - (percFilled + nvPerc)), "red");
-		 		percFilled = percFilled + nvPerc;
-		 }
-
-		 if (vPerc >= 0) {
-		 		colorPercentageNatM(1 - (percFilled + vPerc), 1 - percFilled, "orange"); //rgba(252,68,69)
-		 		percFilled = percFilled + vPerc;
-		 } else {
-		 		colorPercentageNatM(1 - percFilled, 1 - (percFilled + vPerc), "orange");
-		 		percFilled = percFilled + vPerc;
-		 }
-
-}
+// function update() {
+// 		valVLengthOfStay = VLengthOfStay.slider('getValue');
+// 		valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
+// 		valNVLengthOfStay = NVLengthOfStay.slider('getValue');
+// 		valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
+// 		console.log('Violent lengthOfStay', valVLengthOfStay);
+// 		console.log('Violent Incoming Prisoners', valVIncomingPrisoners);
+// 		console.log('NonViolent lengthOfStay', valNVLengthOfStay);
+// 		console.log('Nonviolent incomingPrisoners', valNVIncomingPrisoners);
+// 		v1.html(valVLengthOfStay);
+// 		v2.html(valVIncomingPrisoners);
+// 		v3.html(valNVLengthOfStay);
+// 		v4.html(valNVIncomingPrisoners);
+//
+// 		var vPpl = initialPopV_;
+// 		var nvPpl = initialPopNV_;
+// 		var totalPop = vPpl + nvPpl;
+// 		var violentLos = losV_ * (100 -valVLengthOfStay) / 100;
+// 		var nonViolentLos = losNV_ * (100 - valNVLengthOfStay) / 100;
+// 		var violentInc = addV_ * (100 - valVIncomingPrisoners) / 100;
+// 		var nonViolentInc = addNV_ * (100 - valNVIncomingPrisoners) / 100;
+//
+// 		//var nvAfter10 = vPpl - populationStepYears(10, nonViolentInc, nonViolentLos, nvPpl);
+// 		//var vAfter10 = nvPpl - populationStepYears(10, violentInc, violentLos, vPpl);
+// 		//var totalPopPerc = totalPop / current_op_cap;
+// 		//var nvPerc = ((nvAfter10 - nvPpl) / current_op_cap);
+// 		//var vPerc = ((vAfter10 - vPpl) / current_op_cap);
+//
+// 		var numYears = 20;
+// 		var upV = generateData(vPpl, violentInc, violentLos, numYears);
+// 		var upNV = generateData(nvPpl, nonViolentInc, nonViolentLos, numYears);
+// 		var orgV = generateData(initialPopV_, addV_, losV_, numYears);
+// 		var orgNV = generateData(initialPopNV_, addNV_, losNV_, numYears);
+// 		var data1 = addLists(orgV, orgNV);
+// 		var data2 = addLists(orgNV, upV);
+// 		var data3 = addLists(upV, upNV);
+// 		// console.log(data1);
+// 		// console.log(data2);
+// 		// console.log(data3);
+//
+// 		//var projection_length = 10;
+//
+// 		var UnalteredNVAfterNYears = orgNV[projection_length];
+// 		var UnalteredVAfterNYears = orgV[projection_length];
+// 		var AlteredNVAfterNYears = upV[projection_length];
+// 		var AlteredVAfterNYears =  upNV[projection_length];
+// 		var totalPopPerc = (UnalteredNVAfterNYears + UnalteredVAfterNYears) / current_op_cap;
+// 		var nvPerc = ((AlteredNVAfterNYears - UnalteredNVAfterNYears) / current_op_cap);
+// 		var vPerc = ((AlteredVAfterNYears - UnalteredVAfterNYears) / current_op_cap);
+//
+//
+//
+// 		updateData(
+// 			[	  {
+// 				    line_data: data1,
+// 				    color: 'blue'
+// 				  }, {
+// 				    line_data: data2,
+// 				    color: 'red'
+// 				  }, {
+// 				    line_data: data3,
+// 				    color: 'orange'
+// 				  }], xscale, yscale
+// 		);
+// 		// var num_categories = 7;
+// 		// var orig_pop = 43075,
+// 		// 		orig_add = 26692,
+// 		// 		orig_LOS = 1.9,
+// 		// 		orig_data = [orig_pop];
+//
+// 		// var regularData = updateData(data, xscale, yscale);
+//
+// 		grid.select("text").text("Affect of Policy Modifications in "+projection_length+" Years" );
+//
+// 		 colorPercentageNatM(0, 1, "rgba(0,0,0,0.2)");
+//
+// 		 colorPercentageNatM(1 - totalPopPerc, 1, "rgba(150,200,200,1)");
+// 		 var percFilled = totalPopPerc;
+//
+// 		 if (nvPerc >= 0) {
+// 		 		colorPercentageNatM(1 - (percFilled + nvPerc), 1 - percFilled, "red"); //rgba(85,122,149)
+// 		 		percFilled = percFilled + nvPerc;
+// 		 } else {
+// 		 		colorPercentageNatM(1 - percFilled, (1 - (percFilled + nvPerc)), "red");
+// 		 		percFilled = percFilled + nvPerc;
+// 		 }
+//
+// 		 if (vPerc >= 0) {
+// 		 		colorPercentageNatM(1 - (percFilled + vPerc), 1 - percFilled, "orange"); //rgba(252,68,69)
+// 		 		percFilled = percFilled + vPerc;
+// 		 } else {
+// 		 		colorPercentageNatM(1 - percFilled, 1 - (percFilled + vPerc), "orange");
+// 		 		percFilled = percFilled + vPerc;
+// 		 }
+//
+// }
 
 function colorDotsFromNToM(m, n, color) {
 		grid
@@ -294,16 +306,16 @@ function createSlider(name) {
 // add 26692 lost 1.9 current prision Pop 43,075
 
 function populationStepYears(years, add, avgLos, start) {
-		var pop = start;
-		for (var i = 0; i < years; i++) {
-				pop = populationStep(pop, add, avgLos);
-		}
-		return pop;
+	var pop = start;
+	for (var i = 0; i < years; i++) {
+		pop = populationStep(pop, add, avgLos);
+	}
+	return pop;
 }
 
 function populationStep(prevPop, add, avgLos) {
-		var expon = Math.exp(-1.0 / avgLos);
-		return add * avgLos * (1.0 - expon) + prevPop * expon;
+	var expon = Math.exp(-1.0 / avgLos);
+	return add * avgLos * (1.0 - expon) + prevPop * expon;
 }
 
 $(document)

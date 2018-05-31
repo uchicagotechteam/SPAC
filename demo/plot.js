@@ -6,86 +6,6 @@ var w = 800 - m[1] - m[3]; // width
 var h = 450 - m[0] - m[2]; // height
 
 var point;
-// create a simple data array that we'll plot with a line (this array represents
-// only the Y values, X will just be the index location) var data1 = [10, 9, 6,
-// 7, 5, 2, 5, 3, 8, 9, 3, 5, 9, 3, 6, 3, 6, 6, 7, 5, 3, 4, 3, 8, 9, 6, 5, 9, 8,
-// 7]; var data2 = [10, 5, 1, 4, 3, 1, 0, 2, 4, 6, 1, 3, 4, 1, 0, 1, 3, 1, 3, 3,
-// 1, 0, 2, 3, 6, 1, 4, 6, 2, 6];
-
-var num_years = 10;
-// var num_categories = 7; var orig_pop = 43075, orig_add = 26692, orig_LOS =
-// 1.9, orig_data = [orig_pop]; for (var i = 0; i < num_years; i++) { orig_pop =
-// populationStep(orig_pop, orig_add, orig_LOS); orig_data.push(orig_pop); }
-// original line currently random hardcoded data; need to change to actual
-// population numbers
-orig_data = [
-  43075,
-  46201,
-  48048,
-  49140,
-  49784,
-  50165,
-  50390,
-  50523,
-  50601,
-  50648,
-  50675
-];
-mod_data_1 = [
-  43075,
-  41201,
-  43048,
-  44140,
-  44784,
-  45165,
-  45390,
-  45523,
-  45601,
-  45648,
-  45675
-];
-mod_data_2 = [
-  43075,
-  36201,
-  33048,
-  39140,
-  34784,
-  40165,
-  35390,
-  40523,
-  35601,
-  40648,
-  35675
-];
-mod_data_3 = [
-  43075,
-  29201,
-  23048,
-  24140,
-  30784,
-  30165,
-  32390,
-  33523,
-  30601,
-  30648,
-  29675
-];
-var data4 = []
-for (var i = 0; i < mod_data_3.length; i++) {
-  data4.push(.8 * mod_data_3[i]);
-}
-var data5 = []
-for (var i = 0; i < data4.length; i++) {
-  data5.push(.7 * data4[i]);
-}
-var data6 = []
-for (var i = 0; i < data5.length; i++) {
-  data6.push(.6 * data5[i]);
-}
-var data7 = []
-for (var i = 0; i < data6.length; i++) {
-  data7.push(.5 * data6[i]);
-}
 
 // prerequisite: n should be less than 6 digits long
 function formatNumber(n) {
@@ -102,13 +22,12 @@ function formatNumber(n) {
 // X scale will fit all values from data[] within pixels 0-w
 var x = d3
   .scaleLinear()
-  .domain([0, orig_data.length])
+  .domain([0, numYears + 1])
   .range([0, w]);
 // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain
 // for the y-scale: bigger is up!) var y = d3.scale.linear().domain([0,
 // 10]).range([h, 0]); automatically determining max range can work something
 // like this
-var ymax = d3.max(orig_data);
 var y = d3
   .scaleLinear()
   .domain([0, ymax])
@@ -160,10 +79,10 @@ graph
   .attr("transform", "translate(-25,0)")
   .call(yAxisLeft);
 
-var indices = d3.range(orig_data.length)
+var indices = d3.range(numYears + 1)
 var zeroes = []
 var ones = []
-for (var i = 0; i < orig_data.length; i++) {
+for (var i = 0; i < numYears + 1; i++) {
   zeroes.push(0)
   ones.push(ymax)
 }
@@ -514,7 +433,7 @@ function plotLines(lines, xscale, yscale) {
 var xscale = d3
   .scaleLinear()
   .range([
-    0, w / orig_data.length
+    0, w / (numYears + 1)
   ])
   .domain(indices);
 
