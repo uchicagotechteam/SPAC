@@ -173,6 +173,10 @@ function update() {
 		var upNV = generateData(nvPpl, nonViolentInc, nonViolentLos, numYears);
 		var orgV = generateData(initialPopV_, addV_, losV_, numYears);
 		var orgNV = generateData(initialPopNV_, addNV_, losNV_, numYears);
+		console.log('upV', upV);
+		console.log('upNV', upNV);
+		console.log('orgV', orgV);
+		console.log('orgNV', orgNV);
 		var data1 = addLists(orgV, orgNV);
 		var data2 = addLists(orgNV, upV);
 		var data3 = addLists(upV, upNV);
