@@ -134,7 +134,8 @@ function update () {
             }
         }
 	};
-	updatePlots(obj);
+
+    updatePlots(obj);
 
 }
 

@@ -72,38 +72,49 @@ function updatePlots(params) {
 	var upV_X = generateData(params['population']['violent']['x'],
 					params['updated']['violent']['x']['admissions'],
 					params['updated']['violent']['x']['los'], numYears);
-	var upV_12 = generateData(params['population']['violent']['12'],
+
+					var upV_12 = generateData(params['population']['violent']['12'],
  				 	params['updated']['violent']['12']['admissions'],
  				 	params['updated']['violent']['12']['los'], numYears);
-    var upV_34 = generateData(params['population']['violent']['34'],
+
+						var upV_34 = generateData(params['population']['violent']['34'],
 				 	params['updated']['violent']['34']['admissions'],
 				 	params['updated']['violent']['34']['los'], numYears);
-	var upNV_X = generateData(params['population']['nonviolent']['x'],
+
+					 var upNV_X = generateData(params['population']['nonviolent']['x'],
 					params['updated']['nonviolent']['x']['admissions'],
 					params['updated']['nonviolent']['x']['los'], numYears);
-	var upNV_12 = generateData(params['population']['nonviolent']['12'],
+
+					var upNV_12 = generateData(params['population']['nonviolent']['12'],
  				 	params['updated']['nonviolent']['12']['admissions'],
  				 	params['updated']['nonviolent']['12']['los'], numYears);
-    var upNV_34 = generateData(params['population']['nonviolent']['34'],
+
+						var upNV_34 = generateData(params['population']['nonviolent']['34'],
 				 	params['updated']['nonviolent']['34']['admissions'],
 				 	params['updated']['nonviolent']['34']['los'], numYears);
 
-	var orgV_X = generateData(params['population']['violent']['x'],
+
+					 var orgV_X = generateData(params['population']['violent']['x'],
 					params['original']['violent']['x']['admissions'],
 					params['original']['violent']['x']['los'], numYears);
-	var orgV_12 = generateData(params['population']['violent']['12'],
+
+					var orgV_12 = generateData(params['population']['violent']['12'],
  				 	params['original']['violent']['12']['admissions'],
  				 	params['original']['violent']['12']['los'], numYears);
-    var orgV_34 = generateData(params['population']['violent']['34'],
+
+						var orgV_34 = generateData(params['population']['violent']['34'],
 				 	params['original']['violent']['34']['admissions'],
 				 	params['original']['violent']['34']['los'], numYears);
-	var orgNV_X = generateData(params['population']['nonviolent']['x'],
+
+					 var orgNV_X = generateData(params['population']['nonviolent']['x'],
 					params['original']['nonviolent']['x']['admissions'],
 					params['original']['nonviolent']['x']['los'], numYears);
-	var orgNV_12 = generateData(params['population']['nonviolent']['12'],
+
+					var orgNV_12 = generateData(params['population']['nonviolent']['12'],
  				 	params['original']['nonviolent']['12']['admissions'],
  				 	params['original']['nonviolent']['12']['los'], numYears);
-    var orgNV_34 = generateData(params['population']['nonviolent']['34'],
+
+						var orgNV_34 = generateData(params['population']['nonviolent']['34'],
 				 	params['original']['nonviolent']['34']['admissions'],
 				 	params['original']['nonviolent']['34']['los'], numYears);
 
