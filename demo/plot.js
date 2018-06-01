@@ -1,9 +1,22 @@
 /* implementation heavily influenced by http://bl.ocks.org/1166403 */
 
+// define dimensions of graphLegend
+var leg_total_w = 265;
+var leg_total_h = 180;
+var leg_m = [20, 20, 20, 20]; // margins
+var leg_w = leg_total_w - leg_m[1] - leg_m[3]; // width
+var leg_h = leg_total_h - leg_m[0] - leg_m[2]; // height
+
 // define dimensions of graph
-var m = [50, 80, 50, 80]; // margins
-var w = 800 - m[1] - m[3]; // width
-var h = 450 - m[0] - m[2]; // height
+var plot_w = 800;
+var total_w = plot_w + (leg_total_w - 80) * 2;
+var total_h = 420;
+var m = [10, 80 + leg_total_w, 50, 80 + leg_total_w]; // margins
+var w = 800 + 2*leg_total_w - m[1] - m[3]; // width
+var h = total_h - m[0] - m[2]; // height
+
+// list of colors used
+var colors_list = ["blue", "red", "orange"];
 
 var point;
 
@@ -71,13 +84,75 @@ graph
 // create left yAxis
 var yAxisLeft = d3
   .axisLeft(y)
-  .ticks(4)
+  .ticks(10)
 // Add the y-axis to the left
 graph
   .append("svg:g")
   .attr("class", "y axis")
   .attr("transform", "translate(-25,0)")
   .call(yAxisLeft);
+
+
+// Add descriptions for the axes
+graph   // y-axis description
+    .append("text")
+    .attr("x", -200)
+    .attr("y", h / 2)
+    .attr("font-size", "14px")
+    .attr("font-family", "Open Sans")
+    .attr("stroke", "black")
+    .attr("stroke-width", 0.8)
+    .attr("transform", "rotate(-90 -110 160)")
+    .text("Prison Population Size");
+graph   // x-axis description
+    .append("text")
+    .attr("x", w / 2 - 100)
+    .attr("y", h + 35)
+    .attr("font-size", "14px")
+    .attr("font-family", "Open Sans")
+    .attr("stroke", "black")
+    .attr("stroke-width", 0.8)
+    .text("Number of Years From Now");
+
+
+// Add legend to graph
+var legend_x = w + leg_m[1];
+var legend_y = (h-leg_h) * (0.9);
+
+var legend = graph
+    .append("svg:g")
+    .attr("class", "graphLegend");
+
+legend
+    .append("rect")
+    .attr("x", legend_x)
+    .attr("y", legend_y)
+    .attr("width", leg_w)
+    .attr("height", leg_h)
+    .attr("fill", "none")
+    .attr("stroke", "black")
+    .attr("stroke-width", 1);
+
+function addLegendRow(label, index, col=null, width=null) {
+    legend
+        .append("text")
+        .attr("x", legend_x + 10)
+        .attr("y", legend_y + 20 + index*20)
+        .attr("font-size", "12px")
+        .attr("font-family", "Open Sans")
+        .attr("stroke", col == null ? colors_list[index] : col)
+        .attr("stroke-width", width=null ? 0.8 : width)
+        // .attr("fill", colors_list[0])
+        .text(label);
+}
+
+addLegendRow("Population with Current Parameters", 0);
+addLegendRow("Change Due to Violent Crimes", 1);
+addLegendRow("Change Due to Non-Violent Crimes", 2);
+addLegendRow("Note that the Non-Violent line shows", 3.5, "gray", width=0.4);
+addLegendRow("the total population with all", 4.5, "gray", width=0.4);
+addLegendRow("the modified parameters together.", 5.5, "gray", width=0.4);
+
 
 var indices = d3.range(numYears + 1)
 var zeroes = []
@@ -392,17 +467,18 @@ function plotLines(lines, xscale, yscale) {
 
 
   point.on("click", function (d) {
-    graph.selectAll('.point_label').text("");
-    graph.selectAll('.point').select("circle").attr("opacity",1);
     var current = d3.select(this);
     var circ = current.select("circle");
     var textbox = current.select("text");
     var op = (circ.attr("opacity") == 0.2) ? 1.0 : 0.2;
     var label = (circ.attr("opacity") == 0.2) ? "" : ("After " + circ.attr("x") + " yrs: " + formatNumber(circ.attr("y")));
+    graph.selectAll('.point_label').text("");
+    graph.selectAll('.point').select("circle").attr("opacity",1.0);
     circ.attr("opacity", op);
     textbox.text(label);
+    console.log("Circle Label:", label);
     projection_length = circ.attr("x");
-    update();
+    // update();
   })
 
   // for (var j = 0; j < data[i].length; j++) {

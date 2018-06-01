@@ -235,44 +235,5 @@ $(document)
                     update();
                 });
 
-				// $('#NVAdmissionsT').slider().on('slide', function () {
-				// 	var toSet = $('#NVAdmissionsT').slider('getValue');
-				// 	$('#NVAdmissionsX').slider('setValue', toSet);
-				// 	$('#NVAdmissionsY').slider('setValue', toSet);
-				// 	$('#NVAdmissionsZ').slider('setValue', toSet);
-				// 	console.log("UPDATED");
-				// });
-				// VLengthOfStay = $("#VLengthOfStay")
-				// 		.slider()
-				// 		.on('slide', update);
-				// VIncomingPrisoners = $("#VIncomingPrisoners")
-				// 		.slider()
-				// 		.on('slide', update);
-        //     VLengthOfStay = $("#VLengthOfStay2")
-				// 		.slider()
-				// 		.on('slide', update);
-        //     VIncomingPrisoners = $("#VIncomingPrisoners2")
-				// 		.slider()
-				// 		.on('slide', update);
-        //     VIncomingPrisoners = $("#VAdmissionsT")
-				// 		.slider()
-				// 		.on('slide', update);
-				// NVLengthOfStay = $("#NVLengthOfStay")
-				// 		.slider()
-				// 		.on('slide', update);
-				// NVIncomingPrisoners = $("#NVIncomingPrisoners")
-				// 		.slider()
-				// 		.on('slide', update);
-
-				// valVLengthOfStay = VLengthOfStay.slider('getValue');
-				// valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
-				// valNVLengthOfStay = NVLengthOfStay.slider('getValue');
-				// valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
-
-				// v1 = $('#v1');
-				// v2 = $('#v2');
-				// v3 = $('#v3');
-				// v4 = $('#v4');
-				// update();
 				update();
 		});

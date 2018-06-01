@@ -156,13 +156,13 @@ function updatePlots(params) {
 	updateData(
 		[	  {
 				line_data: data1,
-				color: 'blue'
+				color: colors_list[0]
 			  }, {
 				line_data: data2,
-				color: 'red'
+				color: colors_list[1]
 			  }, {
 				line_data: data3,
-				color: 'orange'
+				color: colors_list[2]
 			  }], xscale, yscale
 	);
 }
@@ -318,78 +318,78 @@ function populationStep(prevPop, add, avgLos) {
 	return add * avgLos * (1.0 - expon) + prevPop * expon;
 }
 
-$(document)
-		.ready(function () {
-
-				grid = d3
-						.select(".grid")
-						.append("svg")
-						.attr("width", width)
-						.attr("height", height);
-
-				 for (var j=25; j <= dot_grid_height; j+=25) {
-					 for (var i=25; i <= dot_grid_width; i+=25)
-				 	 {
-					 grid.append("circle")
-					 		.attr("class", "circle")
-							.attr("cx", i-1000)
-				 			.attr("cy", j) .attr("r", 7)
-							.style("fill", "rgba(0,0,0,0.2)")
-							.transition()
-				 			.delay(0)
-							.duration(2000)
-							.attr("cx",i)
-							.transition()
-							.duration(0)
-			 	 			.on("end", function(){
-								grid.selectAll(".circle")
-				 						.filter(function(d,k){j*(width/25)+i==3})
-										.transition()
-										.delay(0)
-				 						.duration(10)
-										.attr("cx",1000)
-										.ease(ease); // second ease
-							}); };
-				 //setTimeout(function() {continue;},1000);
-			 	 };
-				 grid.append("line")          // attach a line
-    			.style("stroke", "black")  // colour the line
-    			.attr("x1", 25)     // x position of the first end of the line
-    			.attr("y1", height-30)      // y position of the first end of the line
-    			.attr("x2", width/2)     // x position of the second end of the line
-    			.attr("y2", height-30)
-					.attr('stroke-width', 3);
-
-				 grid.append("text").attr("x",25).attr("y",height-5).attr("font-family", "sans-serif")
-			     .attr("font-size", "20px").text("Affect of Policy Modifications in "+projection_length+" Years" );
-
-				createSlider('VLengthOfStay');
-				createSlider('VIncomingPrisoners');
-				createSlider('NVLengthOfStay');
-				createSlider('NVIncomingPrisoners');
-
-				VLengthOfStay = $("#VLengthOfStay")
-						.slider()
-						.on('slide', update);
-				VIncomingPrisoners = $("#VIncomingPrisoners")
-						.slider()
-						.on('slide', update);
-				NVLengthOfStay = $("#NVLengthOfStay")
-						.slider()
-						.on('slide', update);
-				NVIncomingPrisoners = $("#NVIncomingPrisoners")
-						.slider()
-						.on('slide', update);
-
-				valVLengthOfStay = VLengthOfStay.slider('getValue');
-				valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
-				valNVLengthOfStay = NVLengthOfStay.slider('getValue');
-				valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
-
-				v1 = $('#v1');
-				v2 = $('#v2');
-				v3 = $('#v3');
-				v4 = $('#v4');
-				update();
-
-		});
+// $(document)
+// 		.ready(function () {
+//
+// 				grid = d3
+// 						.select(".grid")
+// 						.append("svg")
+// 						.attr("width", width)
+// 						.attr("height", height);
+//
+// 				 for (var j=25; j <= dot_grid_height; j+=25) {
+// 					 for (var i=25; i <= dot_grid_width; i+=25)
+// 				 	 {
+// 					 grid.append("circle")
+// 					 		.attr("class", "circle")
+// 							.attr("cx", i-1000)
+// 				 			.attr("cy", j) .attr("r", 7)
+// 							.style("fill", "rgba(0,0,0,0.2)")
+// 							.transition()
+// 				 			.delay(0)
+// 							.duration(2000)
+// 							.attr("cx",i)
+// 							.transition()
+// 							.duration(0)
+// 			 	 			.on("end", function(){
+// 								grid.selectAll(".circle")
+// 				 						.filter(function(d,k){j*(width/25)+i==3})
+// 										.transition()
+// 										.delay(0)
+// 				 						.duration(10)
+// 										.attr("cx",1000)
+// 										.ease(ease); // second ease
+// 							}); };
+// 				 //setTimeout(function() {continue;},1000);
+// 			 	 };
+// 				 grid.append("line")          // attach a line
+//     			.style("stroke", "black")  // colour the line
+//     			.attr("x1", 25)     // x position of the first end of the line
+//     			.attr("y1", height-30)      // y position of the first end of the line
+//     			.attr("x2", width/2)     // x position of the second end of the line
+//     			.attr("y2", height-30)
+// 					.attr('stroke-width', 3);
+//
+// 				 grid.append("text").attr("x",25).attr("y",height-5).attr("font-family", "sans-serif")
+// 			     .attr("font-size", "20px").text("Affect of Policy Modifications in "+projection_length+" Years" );
+//
+// 				createSlider('VLengthOfStay');
+// 				createSlider('VIncomingPrisoners');
+// 				createSlider('NVLengthOfStay');
+// 				createSlider('NVIncomingPrisoners');
+//
+// 				VLengthOfStay = $("#VLengthOfStay")
+// 						.slider()
+// 						.on('slide', update);
+// 				VIncomingPrisoners = $("#VIncomingPrisoners")
+// 						.slider()
+// 						.on('slide', update);
+// 				NVLengthOfStay = $("#NVLengthOfStay")
+// 						.slider()
+// 						.on('slide', update);
+// 				NVIncomingPrisoners = $("#NVIncomingPrisoners")
+// 						.slider()
+// 						.on('slide', update);
+//
+// 				valVLengthOfStay = VLengthOfStay.slider('getValue');
+// 				valVIncomingPrisoners = VIncomingPrisoners.slider('getValue');
+// 				valNVLengthOfStay = NVLengthOfStay.slider('getValue');
+// 				valNVIncomingPrisoners = NVIncomingPrisoners.slider('getValue');
+//
+// 				v1 = $('#v1');
+// 				v2 = $('#v2');
+// 				v3 = $('#v3');
+// 				v4 = $('#v4');
+// 				update();
+//
+// 		});

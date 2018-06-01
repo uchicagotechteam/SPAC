@@ -1,7 +1,13 @@
 
+#heading {
+    margin: 10px;
+    text-align: center;
+}
+
 #allSlidersContainer {
   /* zoom: .8; */
   /* -moz-transform: scale(0.8); */
+  font-family: "Open Sans";
   display:inline;
 }
 
@@ -63,9 +69,17 @@ div.small-slider .slider.slider-horizontal .slider-track {
 .slider-item {
   margin: auto;
 }
+
+.center {
+    font-weight: 600;
+    margin-top: 10px;
+}
+
 .crime-type-name {
+  font-weight: 600;
   padding-left: 30%;
   text-align: center;
+  margin-top: 10px;
   font-size: 18px;
 }
 
@@ -86,6 +100,10 @@ div {
 
 svg {
     margin: auto;
+    display: flex;
+}
+
+.graphLegend {
     display: flex;
 }
 
@@ -130,5 +148,5 @@ h7 {
 .slider-item {
   margin-bottom: 0;
   padding: 0;
-  padding-bottom: 2%;
+  padding-bottom: 4%;
 }
