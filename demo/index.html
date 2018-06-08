@@ -17,38 +17,6 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js" charset="utf-8"></script>
 </head>
-<style>
-  /* tell the SVG path to be a thin red line without any area fill */
-
-  path {
-    /* stroke: red; */
-    stroke-width: 2;
-    /* fill: none; */
-  }
-
-  .axis {
-    shape-rendering: crispEdges;
-  }
-
-  .x.axis line {
-    stroke: lightgrey;
-  }
-
-  .x.axis .minor {
-    stroke-opacity: .5;
-  }
-
-  .x.axis path {
-    display: none;
-  }
-
-  .y.axis line,
-  .y.axis path {
-    fill: none;
-    stroke: #000;
-  }
-</style>
-</head>
 
 <body>
   <span>
@@ -78,7 +46,6 @@
             <div id="slider-1-1" class="slider-box">
               <div class="slider-item">
                 <h7>Murder & Class X</h7>
-                <!-- <div id='v1'></div>%</h5> -->
                 <input id="VAdmissionsX" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
                   data-slider-value="0" class='sliders' />
               </div>
@@ -118,7 +85,6 @@
             <h7>Murder & Class X</h7>
             <div id="slider-1-1" class="slider-box">
               <div class="slider-item">
-                <!-- <div id='v1'></div>%</h5> -->
                 <input id="VLengthOfStayX" nvdata-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
                   data-slider-value="0" class='sliders' />
               </div>
@@ -140,32 +106,10 @@
           </div>
         </div>
 
-
-
-
-        <!-- <div class="sub-category">
-          <h3 class="crime-type-name">Length of Stay</h3>
-          <div id="slider-1-1" class="slider-box">
-            <div class="slider-item">
-              <h7>Reduce Avg. Length of Stay by:</h7>
-              <div id='v1'></div>%</h5>
-              <input id="slidelos1" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
-                data-slider-value="0" class='sliders' />
-            </div>
-          </div>
-          <div id="slider-1-2" class="slider-box">
-            <div class="slider-item">
-              <h7>Reduce Incoming Prisoners by:</h7>
-              <input id="VIncomingPrisoners2" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
-                data-slider-value="0" class='sliders' />
-            </div>
-          </div>
-        </div> -->
-
       </div>
 
       <div id="NonviolentCrimesContainer">
-        <h3 class="center">Non Violent Crimes</h3>
+        <h3 class="center">Non-Violent Crimes</h3>
 
         <div class="sub-category sub-category1">
 
@@ -183,7 +127,6 @@
           <div class="small-slider">
             <div id="slider-1-1" class="slider-box">
               <div class="slider-item">
-                <!-- <div id='v1'></div>%</h5> -->
                 <input id="NVAdmissionsX" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
                   data-slider-value="0" class='sliders' />
               </div>
@@ -223,7 +166,6 @@
             <div id="slider-1-1" class="slider-box">
               <div class="slider-item">
                 <h7>Class X</h7>
-                <!-- <div id='v1'></div>%</h5> -->
                 <input id="NVLengthOfStayX" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
                   data-slider-value="0" class='sliders' />
               </div>
@@ -247,30 +189,6 @@
       </div>
     </div>
 
-
-
-
-
-
-  <!-- <div id="NonviolentCrimesContainer">
-    <h3 class="crime-type-name">Crime Type 2</h3>
-    <div id="slider-2-1" class="slider-box">
-      <h5>Reduce Avg. Length of Stay by:
-        <div id='v3'></div>%</h5>
-      <div class="slider-item">
-        <input id="NVLengthOfStay" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
-          data-slider-value="0" class='sliders' />
-      </div>
-    </div>
-    <div id="slider-2-2" class="slider-box">
-      <h5>Reduce Incoming Prisoners by:
-        <div id='v4'></div>%</h5>
-      <div class="slider-item">
-        <input id="NVIncomingPrisoners" data-slider-id='ex1Slider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="2.5"
-          data-slider-value="0" class='sliders' />
-      </div>
-    </div>
-  </div> -->
 </body>
 
 <script src="./main.js"></script>

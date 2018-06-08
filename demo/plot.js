@@ -12,7 +12,7 @@ var plot_w = 800;
 var total_w = plot_w + (leg_total_w - 80) * 2;
 var total_h = 420;
 var m = [10, 80 + leg_total_w, 50, 80 + leg_total_w]; // margins
-var w = 800 + 2*leg_total_w - m[1] - m[3]; // width
+var w = plot_w + 2*leg_total_w - m[1] - m[3]; // width
 var h = total_h - m[0] - m[2]; // height
 
 // list of colors used
@@ -51,14 +51,10 @@ var line = d3
   .line()
   // assign the X function to plot our line as we wish
   .x(function (d, i) {
-    // verbose logging to show what's actually being done
-    console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
     // return the X coordinate where we want to plot this datapoint
     return x(i);
   })
   .y(function (d) {
-    // verbose logging to show what's actually being done
-    console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
     // return the Y coordinate where we want to plot this datapoint
     return y(d);
   })
@@ -172,12 +168,10 @@ function updateData(lines2, xscale, yscale) {
     // .update()
     .transition()
     .attr("d", function (d) {
-      console.log("COOOOOOOOOOOOOOL! \n\n\n\nswitching the lines!", d.line_data);
       return line(d.line_data);
     })
     .attr("fill", "none")
     .attr("stroke", function (d) {
-      console.log("COOOOOOOOOOOOOOL! \n\n\n\nswitching the lines!", d.line_data);
       return d.color;
     });
 
@@ -200,15 +194,12 @@ function updateData(lines2, xscale, yscale) {
     var to_return = [];
     for (let i = 0; i < lines.length - 1; i++) {
       var next = [];
-      // console.log("THIS IS!!!!!!!",lines[0].line_data.length);
       for (let j = 0; j < lines[0].line_data.length; j++) {
-        // console.log("PUSHING" ,(lines[i].line_data[j], lines[i + 1].line_data[j]));
         next.push([
           lines[i].line_data[j],
           lines[i + 1].line_data[j]
         ]);
       }
-      console.log(next);
       to_return.push({
         color: lines[i+1].color,
         area_data: next
@@ -226,11 +217,9 @@ function updateData(lines2, xscale, yscale) {
     .attr('class', 'area')
     .attr('opacity', 0.5)
     .attr('fill', function (d) {
-      console.log("PLOTTING WITh COLOR", d.color);
       return d.color;
     })
     .attr("d", function (d) {
-      console.log("PLOTTING SECOND data ", d.area_data);
       return area(d.area_data);
     })
 
@@ -247,7 +236,6 @@ function updateData(lines2, xscale, yscale) {
     });
     return a;
   };
-  // console.log("FUCKKK\n\n\n\n\n", expandLines(lines2));
 
   point = graph.selectAll('.point')
     .data(expandLines(lines2))
@@ -258,7 +246,6 @@ function updateData(lines2, xscale, yscale) {
 
 
   things.append("circle").attr("cx", function (d) {
-      console.log("appending x:", d);
       return xscale(d.x);
     })
     .attr("cy", function (d) {
@@ -277,7 +264,6 @@ function updateData(lines2, xscale, yscale) {
 
   things.append("text").attr("font-family", "sans-serif")
     .attr("font-size", "12px").attr("x", function (d) {
-      console.log("appending x:", d);
       return xscale(d.x);
     }).attr("y", function (d) {
       return h - yscale(d.y);
@@ -288,7 +274,6 @@ function updateData(lines2, xscale, yscale) {
 
   point.select('circle').transition()
     .attr("cx", function (d) {
-      console.log("modifying", d);
       return xscale(d.x);
     })
     .attr("cy", function (d) {
@@ -307,7 +292,6 @@ function updateData(lines2, xscale, yscale) {
 
   point.select('text')
     .attr("font-size", "12px").attr("x", function (d) {
-      // console.log("appending x:", d);
       return xscale(d.x) - 5;
     }).attr("y", function (d) {
       return h - yscale(d.y) - 10;
@@ -332,7 +316,6 @@ function plotLines(lines, xscale, yscale) {
   ];
 
   // plotting the lines
-
   graph
     .selectAll('.line')
     .data(lines)
@@ -348,7 +331,6 @@ function plotLines(lines, xscale, yscale) {
     .attr("class", "line");
 
   // shading the area
-
   var area = d3
     .area()
     .x0(function (d, i) {
@@ -368,15 +350,12 @@ function plotLines(lines, xscale, yscale) {
     var to_return = [];
     for (let i = 0; i < lines.length - 1; i++) {
       var next = [];
-      console.log("THIS IS!!!!!!!", lines[0].line_data.length);
       for (let j = 0; j < lines[0].line_data.length; j++) {
-        // console.log("PUSHING" ,(lines[i].line_data[j], lines[i + 1].line_data[j]));
         next.push([
           lines[i].line_data[j],
           lines[i + 1].line_data[j]
         ]);
       }
-      console.log(next);
       to_return.push({
         color: lines[i].color,
         area_data: next
@@ -393,29 +372,12 @@ function plotLines(lines, xscale, yscale) {
     .attr('class', 'area')
     .attr('opacity', 0.5)
     .attr('fill', function (d) {
-      console.log("PLOTTING WITh COLOR", d.color);
       return d.color;
     })
     .attr("d", function (d) {
-      console.log("PLOTTING data ", d.area_data);
       return area(d.area_data);
     })
 
-  //shading the area   for (var i = 0; i < num_lines - 1; i++) {     let area
-  //   = d3.svg.area() // .interpolate("cardinal")     .x0(function
-  //   (d) {
-  //     return xscale(d)
-  //   }).x1(function (d) {
-  //   return
-  //   xscale(d)
-  // }).y0(function (d) {
-  //   return h - yscale(data[i][d])
-  // }).y1(function (d) {
-  //   return h - yscale(data[i + 1][d])
-  // });
-  // graph.append('path').datum(indices).attr('class', 'area')
-  //   .attr('fill', colors[i + 1]).attr('opacity', 0.5).attr('d', area);
-  // } // putting circles at each data point for (var i = 0; i < num_lines; i++) {
   var expandLines = function (lines) {
     a = []
     lines.forEach(function (line) {
@@ -429,7 +391,6 @@ function plotLines(lines, xscale, yscale) {
     })
     return a;
   };
-  // console.log("FUCKKK\n\n\n\n\n",expandLines(lines));
   point = graph.selectAll('.point')
     .data(expandLines(lines))
     .enter()
@@ -437,7 +398,6 @@ function plotLines(lines, xscale, yscale) {
     .attr("class", "point")
 
   point.append("circle").attr("cx", function (d) {
-      console.log("appending x:", d);
       return xscale(d.x);
     })
     .attr("cy", function (d) {
@@ -456,7 +416,6 @@ function plotLines(lines, xscale, yscale) {
 
   point.append("text").attr("font-family", "sans-serif")
     .attr("font-size", "12px").attr("class","point_label").attr("x", function (d) {
-      console.log("appending x:", d);
       return xscale(d.x);
     }).attr("y", function (d) {
       return h - yscale(d.y);
@@ -476,33 +435,7 @@ function plotLines(lines, xscale, yscale) {
     graph.selectAll('.point').select("circle").attr("opacity",1.0);
     circ.attr("opacity", op);
     textbox.text(label);
-    console.log("Circle Label:", label);
-    projection_length = circ.attr("x");
-    // update();
   })
-
-  // for (var j = 0; j < data[i].length; j++) {
-  //   var point =
-  //     graph.append("svg:g");
-  //   var x = xscale(j);
-  //   var y = h - yscale(data[i][j]);
-  //   point.append("text").attr("font-family", "sans-serif")
-  //     .attr("font-size", "12px").attr("x", x - 1).attr("y", y - 3)
-  //     .attr("fill", colors[i]);
-  //   point.append("circle").attr("cx", x)
-  //     .attr("cy", y).attr("r", 4).attr("fill", colors[i]);
-  //   point.on("click", function (d) {
-  //     var current = d3.select(this);
-  //     var
-  //       circ = current.select("circle");
-  //     var textbox = current.select("text");
-  //     var op = (circ.attr("opacity") == 0.2) ? 1.0 : 0.2;
-  //     var label = (circ.attr("opacity") == 0.2) ? "" : ("(" + circ.attr("cx") +
-  //       "," + circ.attr("cy") + ")");
-  //     circ.attr("opacity", op);
-  //     textbox.text(label);
-  //   });
-  // }
 
 }
 
@@ -517,51 +450,3 @@ var yscale = d3
   .scaleLinear()
   .range([0, h])
   .domain([0, ymax]);
-
-// plotLines([ones, data1, data2, data3, data4, data5, data6, data7], xscale,
-// yscale); plotLines([ones, data1, data2], xscale, yscale);
-// plotLines([{
-//   line_data: orig_data,
-//   color: 'blue'
-// }, {
-//   line_data: mod_data_1,
-//   color: 'red'
-// }, {
-//   line_data: mod_data_2,
-//   color: 'orange'
-// }, {
-//   line_data: mod_data_3,
-//   color: 'blue'
-// }], xscale, yscale);
-
-// setInterval(function () {
-//   var transform = function (a, c) {
-//     var b = [];
-//     for (let i = 0; i < a.length; i++) {
-//       b.push(a[i] * c);
-//     }
-//     return b;
-//   }
-//   var c = Math.random();
-//   var orig_data2 = transform(orig_data, c);
-//   var mod_data_12 = transform(mod_data_1, c);
-//   var mod_data_22 = transform(mod_data_2, c);
-//   var mod_data_32 = transform(mod_data_3, c);
-//   console.log("UPDATING LINES!");
-//   updateData([{
-//     line_data: orig_data2,
-//     color: 'blue'
-//   }, {
-//     line_data: mod_data_12,
-//     color: 'red'
-//   }, {
-//     line_data: mod_data_22,
-//     color: 'orange'
-//   }, {
-//     line_data: mod_data_32,
-//     color: 'blue'
-//   }], xscale, yscale);
-// }, 2000);
-
-// console.log(xscale(1)) console.log(indices) console.log(zeroes)
-// console.log(xscale)

@@ -4,69 +4,66 @@ function createSlider(name) {
           return 'Current percentage change: ' + value + '%';
       }
   });
-
 }
-
-4,752
-8,803
-412
-1,527
-1,578
-1,338
-6,905
 
 function adjust (a) {
     return 1+a;
 }
 
 function update () {
-
+    // violent original admission rate
 	var dvax = 1338;
 	var dvay = 1527;
 	var dvaz = 1578;
+    // violent original length of stay
 	var dvlx = 9.17;
 	var dvly = 2.55;
 	var dvlz = .9;
-
+    // violent initial population sizes
+    var dvix = 16686;
+    var dviy = 4408;
+    var dviz = 1418;
+    // non-violent original admission rate
 	var dnvax = 412;
 	var dnvay = 4752;
 	var dnvaz = 8803;
+    // non-violent original length of stay
 	var dnvlx = 3.63;
 	var dnvly = 1.83;
 	var dnvlz = .67;
+    // non-violent initial population sizes
+    var dnvix = 1777;
+    var dnviy = 8496;
+    var dnviz = 5567;
 
-	// var vat = $('#VAdmissionsT').slider('getValue');
+
 	var vax = adjust($('#VAdmissionsX').slider('getValue') / 100);
 	var vay = adjust($('#VAdmissionsY').slider('getValue') / 100);
 	var vaz = adjust($('#VAdmissionsZ').slider('getValue') / 100);
 
-	// var vlt = adjust($('#VLengthOfStayT').slider('getValue');
 	var vlx = adjust($('#VLengthOfStayX').slider('getValue') / 100);
 	var vly = adjust($('#VLengthOfStayY').slider('getValue') / 100);
 	var vlz = adjust($('#VLengthOfStayZ').slider('getValue') / 100);
-	// var nvt = adjust($('#NVAdmissionsT').slider('getValue');
 	var nvax = adjust($('#NVAdmissionsX').slider('getValue') / 100);
 	var nvay = adjust($('#NVAdmissionsY').slider('getValue') / 100);
 	var nvaz = adjust($('#NVAdmissionsZ').slider('getValue') / 100);
-	// var nvt = adjust($('#NVLengthOfStayT').slider('getValue');
 	var nvlx = adjust($('#NVLengthOfStayX').slider('getValue') / 100);
 	var nvly = adjust($('#NVLengthOfStayY').slider('getValue') / 100);
 	var nvlz = adjust($('#NVLengthOfStayZ').slider('getValue') / 100);
 
     var obj = {
-        // uncomment and add values once Nate provides them
         'population' :
         {
             'violent' : {
-                'x' : 16686,
-                '12' : 4408,
-                '34' : 1418
+                'x' : dvix,
+                '12' : dviy,
+                '34' : dviz
 
             },
             'nonviolent' : {
-                'x' : 1777,
-                '12' : 8496,
-                '34' : 5567
+                'x' : dnvix,
+                '12' : dnviy,
+                '34' : dnviz
             }
         },
         'original' : {
@@ -130,7 +127,6 @@ function update () {
             }
         }
 	};
-    console.log("OBJECT:", obj);
 	updatePlots(obj);
 
 }
