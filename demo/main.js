@@ -89,17 +89,28 @@ function updatePlots(params) {
 	var data2 = addLists([orgNV, upV]);
 	var data3 = addLists([upV, upNV]);
 
+	var colors = [
+		"black",
+		"rgb(57, 151, 170)",
+		"rgb(95, 49, 148)",
+		"rgb(45, 42, 127)",
+		"rgb(47, 142, 59)",
+		"rgb(131, 44, 60)",
+		"rgb(184, 90, 61)",
+		"rgb(172, 57, 150)"
+	  ];
+
 	/* updateData function in plot.js */
 	updateData(
 		[	  {
 				line_data: data1,
-				color: colors_list[0]
+				color: colors[0]
 			  }, {
 				line_data: data2,
-				color: colors_list[1]
+				color: colors[1]
 			  }, {
 				line_data: data3,
-				color: colors_list[2]
+				color: colors[2]
 			  }], xscale, yscale
 	);
 }
